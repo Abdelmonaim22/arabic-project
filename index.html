@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-atmosphere="campfire">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>رِقاعُ البادية | سِفرُ العقلِ العربيِّ قبلَ الإسلام</title>
+
+  <!-- استيراد الخطوط العربية الأصيلة (الرقعة، الكوفي، الأميري، وخط المتن الحديث) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Aref+Ruqaa:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet" />
+
+  <!-- مكتبة Tailwind CSS للتجاوب والتخطيط -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* ==========================================================================
+       1. متغيرات الأجواء الصحراوية المزدوجة (نار السمر والنجوم / وهج الضحى والرمال)
+       ========================================================================== */
+    :root,
+    [data-atmosphere="campfire"] {
+      --bg-desert: #140F0B;
+      --bg-parchment: #211811;
+      --bg-stone: #1A130D;
+      --bg-glass: rgba(20, 15, 11, 0.88);
+      --accent-ember: #D97724;
+      --accent-ember-soft: rgba(217, 119, 36, 0.16);
+      --accent-gold: #E5B567;
+      --accent-gold-soft: rgba(229, 181, 103, 0.14);
+      --accent-crimson: #B83B35;
+      --accent-crimson-soft: rgba(184, 59, 53, 0.18);
+      --text-ivory: #F5EBE0;
+      --text-sand: #BFA992;
+      --border-carved: rgba(229, 181, 103, 0.28);
+      --border-strong: rgba(217, 119, 36, 0.55);
+      --shadow-parchment: 0 20px 45px -15px rgba(0, 0, 0, 0.78), inset 0 1px 0 rgba(229, 181, 103, 0.12);
+      --dune-back: #1E150E;
+      --dune-mid: #18110B;
+      --dune-front: #110C08;
+      --star-rgb: 245, 235, 224;
+      --gold-rgb: 229, 181, 103;
+      --ember-rgb: 217, 119, 36;
+    }
+
+    [data-atmosphere="daylight"] {
+      --bg-desert: #F4E8D1;
+      --bg-parchment: #EBD9B9;
+      --bg-stone: #F9F1E2;
+      --bg-glass: rgba(244, 232, 209, 0.90);
+      --accent-ember: #B85214;
+      --accent-ember-soft: rgba(184, 82, 20, 0.13);
+      --accent-gold: #8A5A19;
+      --accent-gold-soft: rgba(138, 90, 25, 0.12);
+      --accent-crimson: #9E2A2B;
+      --accent-crimson-soft: rgba(158, 42, 43, 0.13);
+      --text-ivory: #2C1A0E;
+      --text-sand: #5E432C;
+      --border-carved: rgba(61, 38, 22, 0.25);
+      --border-strong: rgba(158, 42, 43, 0.48);
+      --shadow-parchment: 0 16px 38px -14px rgba(61, 38, 22, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+      --dune-back: #DEC59B;
+      --dune-mid: #D2B382;
+      --dune-front: #C5A16B;
+      --star-rgb: 138, 90, 25;
+      --gold-rgb: 158, 42, 43;
+      --ember-rgb: 184, 82, 20;
+    }
+
+    /* ==========================================================================
+       2. القواعد الأساسية والخطوط وملمس الجلد والحجر
+       ========================================================================== */
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      background-color: var(--bg-desert);
+      color: var(--text-ivory);
+      transition: background-color 0.5s ease, color 0.5s ease;
+      overflow-x: hidden;
+      line-height: 1.85;
+    }
+
+    .font-ruqaa {
+      font-family: 'Aref Ruqaa', serif;
+    }
+
+    .font-kufi {
+      font-family: 'Reem Kufi', sans-serif;
+    }
+
+    .font-amiri {
+      font-family: 'Amiri', serif;
+    }
+
+    /* طبقة ملمس الرقّ والجلد المعتّق عبر مرشح SVG */
+    .leather-texture {
+      position: relative;
+      background-color: var(--bg-parchment);
+      border: 1px solid var(--border-carved);
+      box-shadow: var(--shadow-parchment);
+      transition: transform 0.35s ease, border-color 0.35s ease, background-color 0.5s ease, box-shadow 0.35s ease;
+    }
+
+    .leather-texture:hover {
+      border-color: var(--border-strong);
+    }
+
+    .stone-tablet {
+      background-color: var(--bg-stone);
+      border: 1px solid var(--border-carved);
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.22);
+      transition: background-color 0.5s ease, border-color 0.35s ease;
+    }
+
+    /* شريط زخرفة السدو البدوية التقليدية (أحمر قانٍ، أسود، رملي، وذهبي) */
+    .sadu-ribbon {
+      height: 12px;
+      width: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='12' viewBox='0 0 64 12'%3E%3Crect width='64' height='12' fill='%23140F0B'/%3E%3Cpath d='M0 2h64M0 10h64' stroke='%23E5B567' stroke-width='1.2'/%3E%3Cpolygon points='8,6 14,2 20,6 14,10' fill='%239E2A2B'/%3E%3Cpolygon points='24,6 32,1.5 40,6 32,10.5' fill='%23EBD9B9'/%3E%3Ccircle cx='32' cy='6' r='1.6' fill='%239E2A2B'/%3E%3Cpolygon points='44,6 50,2 56,6 50,10' fill='%239E2A2B'/%3E%3Cpath d='M2 6h3M59 6h3' stroke='%23E5B567' stroke-width='1.5'/%3E%3C/svg%3E");
+      background-repeat: repeat-x;
+      background-position: center;
+    }
+
+    /* إطار الزوايا المنقوشة المستوحاة من خط المسند */
+    .musnad-corner {
+      position: relative;
+    }
+    .musnad-corner::before,
+    .musnad-corner::after {
+      content: "❖";
+      position: absolute;
+      font-size: 0.75rem;
+      color: var(--accent-gold);
+      opacity: 0.65;
+      pointer-events: none;
+    }
+    .musnad-corner::before {
+      top: 10px;
+      right: 12px;
+    }
+    .musnad-corner::after {
+      bottom: 10px;
+      left: 12px;
+    }
+
+    /* ==========================================================================
+       3. بطاقات الأمثال الجلدية القابلة للقلب ثلاثية الأبعاد (3D Flip Cards)
+       ========================================================================== */
+    .parchment-flip-scene {
+      perspective: 1300px;
+      min-height: 310px;
+    }
+
+    .parchment-flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 310px;
+      transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .parchment-flip-scene.is-flipped .parchment-flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .parchment-face {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .parchment-face-back {
+      transform: rotateY(180deg);
+    }
+
+    /* تأثيرات الظهور المتدرج */
+    .scroll-reveal {
+      animation: scrollUnroll 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes scrollUnroll {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* شريط التمرير الصحراوي */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-desert);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent-ember);
+      border-radius: 999px;
+    }
+
+    /* تنسيقات الطباعة */
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      body {
+        background: #ffffff !important;
+        color: #1c1208 !important;
+      }
+      .leather-texture, .stone-tablet {
+        box-shadow: none !important;
+        border: 1px solid #bba588 !important;
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-amber-600/30">
+
+  <!-- مرشح SVG لمحاكاة ملمس الجلد المدبوغ والحجر الرملي -->
+  <svg class="hidden" aria-hidden="true">
+    <filter id="desertGrain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.045" />
+      </feComponentTransfer>
+    </filter>
+  </svg>
+
+  <!-- طبقة حبيبات الرمل الدقيقة فوق الخلفية -->
+  <div class="fixed inset-0 pointer-events-none z-0 opacity-60" style="filter: url(#desertGrain);"></div>
+
+  <!-- ========================================================================
+       الشريط العلوي: حزام السدو البدوي والتنقل بين الرقاع
+       ======================================================================== -->
+  <header class="sticky top-0 z-50 backdrop-blur-md transition-colors duration-300 no-print border-b"
+          style="background-color: var(--bg-glass); border-color: var(--border-carved);">
+    <!-- شريط السدو العلوي -->
+    <div class="sadu-ribbon"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-3">
+      <!-- شعار السِّفر -->
+      <a href="#camp-entrance" class="flex items-center gap-3 group shrink-0">
+        <div class="w-11 h-11 rounded-2xl flex items-center justify-center border transition-transform duration-300 group-hover:rotate-3"
+             style="background-color: var(--accent-ember-soft); border-color: var(--border-strong);">
+          <!-- نقش هلال ونجم وشعلة نار السمر بـ SVG -->
+          <svg class="w-6 h-6" style="color: var(--accent-gold);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+            <path d="M12 3c-1.5 2.5-1.5 5 0 7.5 1.5-2.5 1.5-5 0-7.5z" fill="currentColor" fill-opacity="0.35"/>
+            <path d="M8.5 9.5C6.5 11.5 6.5 15 9 17c1.5 1.2 4.5 1.2 6 0 2.5-2 2.5-5.5.5-7.5" stroke-linecap="round"/>
+            <path d="M5 20h14M7 22h10" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <span class="font-ruqaa text-2xl sm:text-3xl font-bold block leading-none" style="color: var(--accent-gold);">
+            رِقاعُ البادية
+          </span>
+          <span class="text-[11px] block mt-0.5" style="color: var(--text-sand);">
+            سِفرُ العقلِ العربيِّ قبلَ الإسلام
+          </span>
+        </div>
+      </a>
+
+      <!-- روابط التنقل السريع -->
+      <nav aria-label="قائمة التنقل" class="hidden lg:flex items-center gap-1 text-sm font-medium">
+        <a href="#camp-entrance" class="px-3 py-2 rounded-xl transition hover:opacity-100 opacity-85" style="color: var(--text-ivory);">مدخلُ المضارب</a>
+        <a href="#mental-scrolls" class="px-3 py-2 rounded-xl transition hover:opacity-100 opacity-85" style="color: var(--text-ivory);">أركانُ الحياة العقلية</a>
+        <a href="#caravan-markets" class="px-3 py-2 rounded-xl transition hover:opacity-100 opacity-85" style="color: var(--text-ivory);">قافلةُ الأسواق</a>
+        <a href="#meaning-debate" class="px-3 py-2 rounded-xl transition hover:opacity-100 opacity-85" style="color: var(--text-ivory);">سِجالُ المعنى</a>
+        <a href="#traits-summary" class="px-3 py-2 rounded-xl transition hover:opacity-100 opacity-85" style="color: var(--text-ivory);">خصائصُ العقل</a>
+        <a href="#samar-council" class="px-3 py-2 rounded-xl transition hover:opacity-100 opacity-85" style="color: var(--text-ivory);">مجلسُ السَّمَر</a>
+      </nav>
+
+      <!-- أزرار التحكم بالأجواء الصحراوية وخَتم الباحث -->
+      <div class="flex items-center gap-2">
+        <button id="atmosphereToggleBtn" type="button"
+                aria-label="تبديل الأجواء بين نار السمر والنجوم ووهج الضحى والرمال"
+                class="px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold border flex items-center gap-2 transition hover:scale-[1.02] active:scale-95 cursor-pointer"
+                style="background-color: var(--bg-parchment); border-color: var(--border-carved); color: var(--text-ivory);">
+          <span id="atmosphereIcon" style="color: var(--accent-ember);">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"/>
+              <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span id="atmosphereLabel">وَهَجُ الضُّحى</span>
+        </button>
+
+        <button type="button" onclick="openSealModal()"
+                class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition hover:opacity-90 active:scale-95 cursor-pointer flex items-center gap-1.5 shadow-md"
+                style="background-color: var(--accent-ember); color: #FFF8F0;">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L4 7v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V7l-8-5z" stroke-linejoin="round"/>
+            <circle cx="12" cy="11" r="2.5"/>
+          </svg>
+          <span>خَتمُ الباحث</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- شريط تنقل للهواتف -->
+    <div class="flex lg:hidden items-center gap-1.5 overflow-x-auto px-4 py-2 border-t text-xs whitespace-nowrap"
+         style="border-color: var(--border-carved);">
+      <a href="#camp-entrance" class="px-2.5 py-1 rounded-lg font-medium" style="background-color: var(--accent-gold-soft); color: var(--accent-gold);">مدخلُ المضارب</a>
+      <a href="#mental-scrolls" class="px-2.5 py-1 rounded-lg" style="color: var(--text-sand);">أركانُ العقل</a>
+      <a href="#caravan-markets" class="px-2.5 py-1 rounded-lg" style="color: var(--text-sand);">قافلةُ الأسواق</a>
+      <a href="#meaning-debate" class="px-2.5 py-1 rounded-lg" style="color: var(--text-sand);">سِجالُ المعنى</a>
+      <a href="#traits-summary" class="px-2.5 py-1 rounded-lg" style="color: var(--text-sand);">الخصائص</a>
+      <a href="#samar-council" class="px-2.5 py-1 rounded-lg" style="color: var(--text-sand);">مجلسُ السَّمَر</a>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       الواجهة الاستهلالية (مدخلُ المضارب: سماء النجوم وكثبان الرمل ونار السمر)
+       ======================================================================== -->
+  <section id="camp-entrance" class="relative min-h-[92vh] flex flex-col justify-between overflow-hidden border-b"
+           style="border-color: var(--border-carved);">
+    <!-- لوحة Canvas التفاعلية لسماء الأنواء، الكثبان، وشرارات نار السمر -->
+    <canvas id="desertNightCanvas" class="absolute inset-0 w-full h-full pointer-events-auto"></canvas>
+
+    <!-- تدرج خفيف لضمان وضوح الكتابة المنقوشة -->
+    <div class="absolute inset-0 pointer-events-none"
+         style="background: radial-gradient(circle at 50% 38%, transparent 12%, var(--bg-desert) 94%);"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 sm:pt-20 pb-10 text-center pointer-events-none">
+      <!-- نقش استهلالي مستوحى من نقوش المسند -->
+      <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold mb-6 border backdrop-blur-sm pointer-events-auto"
+           style="background-color: var(--accent-ember-soft); border-color: var(--border-strong); color: var(--accent-gold);">
+        <span>❖</span>
+        <span class="font-kufi tracking-wide">مَخطوطةٌ مَنقوشةٌ عَلى ضَوءِ نارِ السَّمَر</span>
+        <span>❖</span>
+      </div>
+
+      <!-- العنوان الرئيسي بخط الرقعة الأصيل -->
+      <h1 class="font-ruqaa text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-5 drop-shadow-sm">
+        رِقاعُ البادية
+        <span class="block font-amiri text-2xl sm:text-4xl lg:text-5xl font-bold mt-3" style="color: var(--accent-gold);">
+          سِفرُ العقلِ العربيِّ قبلَ الإسلام
+        </span>
+      </h1>
+
+      <!-- المدخل المفاهيمي لتصحيح دلالة «الجاهلية» -->
+      <div class="max-w-3xl mx-auto p-5 sm:p-6 rounded-3xl border backdrop-blur-md mb-8 pointer-events-auto"
+           style="background-color: var(--bg-glass); border-color: var(--border-carved);">
+        <p class="font-amiri text-lg sm:text-xl lg:text-2xl leading-relaxed" style="color: var(--text-ivory);">
+          «يظنُّ الغافلُ أنَّ <strong style="color: var(--accent-gold);">الجاهليّةَ</strong> خُلوٌّ مِنَ العقلِ أو جَفاءٌ في الفِكر؛ وما سُمِّيَتْ كذلِكَ إلّا لِجَهلِ أهلِها بالدِّينِ السَّماويِّ وغَلَبةِ الحَميَّةِ على الحِلم. أمّا في ميدانِ العقلِ والبيان، فقد كانتْ فجراً أوّليّاً صَقَلَتْهُ الصَّحراءُ القاسية، فأنطقَتِ الحَصى شِعراً، وجعلتْ مِنَ النُّجومِ دليلاً، ومِنَ الذاكرةِ ديواناً لا يَبلى».
+        </p>
+      </div>
+
+      <!-- مرصد الأنواء التفاعلي -->
+      <div class="inline-flex flex-wrap items-center justify-center gap-2 px-4 py-2 rounded-2xl border backdrop-blur-md text-xs sm:text-sm mb-10 pointer-events-auto"
+           style="background-color: var(--bg-parchment); border-color: var(--border-strong);">
+        <span class="font-bold" style="color: var(--accent-ember);">✦ دَليلُ الأنواءِ والنُّجوم:</span>
+        <span id="constellationReadout" style="color: var(--text-sand);">
+          مرِّرْ أوِ انقُرْ على النُّجومِ اللّامعة في السَّماءِ لتقرأ كيف اهتدى بها العربُ في البادية
+        </span>
+      </div>
+
+      <!-- 4 بطاقات حجرية تلخص ركائز العقل الجاهلي -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-right pointer-events-auto">
+        <!-- ركيزة 1 -->
+        <div class="leather-texture musnad-corner rounded-2xl p-5">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3 border"
+               style="background-color: var(--accent-ember-soft); border-color: var(--border-strong); color: var(--accent-ember);">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M3 18l5-6 4 4 9-10" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h2 class="font-ruqaa text-xl font-bold mb-1.5" style="color: var(--accent-gold);">صَقلُ البيئةِ القاسية</h2>
+          <p class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-sand);">
+            علّمتهم الفلواتُ الشاسعةُ حدّةَ الملاحظة، واستنطاقَ الأثر، وسرعةَ البديهةِ في مواجهةِ شظفِ العيش.
+          </p>
+        </div>
+
+        <!-- ركيزة 2 -->
+        <div class="leather-texture musnad-corner rounded-2xl p-5">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3 border"
+               style="background-color: var(--accent-gold-soft); border-color: var(--border-strong); color: var(--accent-gold);">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M12 6v12m-6-6h12" stroke-linecap="round"/>
+              <circle cx="12" cy="12" r="9"/>
+            </svg>
+          </div>
+          <h2 class="font-ruqaa text-xl font-bold mb-1.5" style="color: var(--accent-gold);">ذاكرةٌ لا تَخون</h2>
+          <p class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-sand);">
+            اعتمدوا على الروايةِ الشفوية وقوّةِ الحفظ، فحملَتِ الصدورُ آلافَ الأبياتِ والأنسابِ وأيّامِ العربِ بدقّة.
+          </p>
+        </div>
+
+        <!-- ركيزة 3 -->
+        <div class="leather-texture musnad-corner rounded-2xl p-5">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3 border"
+               style="background-color: var(--accent-crimson-soft); border-color: var(--border-strong); color: var(--accent-crimson);">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h2 class="font-ruqaa text-xl font-bold mb-1.5" style="color: var(--accent-gold);">بلاغةُ اللِّسان</h2>
+          <p class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-sand);">
+            بلغوا شأواً عظيماً في فصاحةِ القول، فكانتِ الكلمةُ الموزونةُ ترفعُ قبيلةً وتضعُ أخرى في المحافل.
+          </p>
+        </div>
+
+        <!-- ركيزة 4 -->
+        <div class="leather-texture musnad-corner rounded-2xl p-5">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3 border"
+               style="background-color: var(--accent-ember-soft); border-color: var(--border-strong); color: var(--accent-ember);">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h2 class="font-ruqaa text-xl font-bold mb-1.5" style="color: var(--accent-gold);">عُمقُ التَّجربة</h2>
+          <p class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-sand);">
+            صاغوا خلاصةَ تجاربِهم في الحِكم والأمثال، وتأمّلوا في الوجودِ والمصيرِ والسننِ الكونية.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       القسم الأول: أركانُ الحياة العقلية (4 رِقاع منقوشة تفاعلية)
+       ======================================================================== -->
+  <section id="mental-scrolls" class="relative z-10 py-20 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <span class="font-kufi text-xs sm:text-sm font-bold tracking-wider uppercase block mb-2" style="color: var(--accent-ember);">
+        ❖ السِّفرُ الأوَّل • الرِّقاعُ الأربعة ❖
+      </span>
+      <h2 class="font-ruqaa text-3xl sm:text-5xl font-bold mb-4">أركانُ الحياةِ العقليةِ في البادية</h2>
+      <p class="text-sm sm:text-base" style="color: var(--text-sand);">
+        افتحْ كلَّ رِقٍّ من الرِّقاعِ الجلديةِ الأربعةِ لتطالعَ كيف تجلّتْ عبقريةُ العقلِ العربيِّ في الشِّعرِ والخطابةِ والأمثالِ والمعارف.
+      </p>
+    </div>
+
+    <!-- أزرار الرِّقاع الأربعة -->
+    <div role="tablist" aria-label="الرِّقاع الأربعة للحياة العقلية"
+         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
+      <button type="button" role="tab" aria-selected="true" data-scroll="poetry"
+              class="scroll-tab p-4 rounded-2xl border text-right transition cursor-pointer flex items-center gap-3">
+        <span class="w-9 h-9 rounded-xl flex items-center justify-center font-kufi font-bold text-sm shrink-0"
+              style="background-color: var(--accent-ember-soft); color: var(--accent-ember);">١</span>
+        <div>
+          <span class="text-[11px] block opacity-80">الرِّقُّ الأوَّل</span>
+          <strong class="font-ruqaa text-lg sm:text-xl block">ديوانُ العرب (الشِّعر)</strong>
+        </div>
+      </button>
+
+      <button type="button" role="tab" aria-selected="false" data-scroll="oratory"
+              class="scroll-tab p-4 rounded-2xl border text-right transition cursor-pointer flex items-center gap-3">
+        <span class="w-9 h-9 rounded-xl flex items-center justify-center font-kufi font-bold text-sm shrink-0"
+              style="background-color: var(--accent-ember-soft); color: var(--accent-ember);">٢</span>
+        <div>
+          <span class="text-[11px] block opacity-80">الرِّقُّ الثَّاني</span>
+          <strong class="font-ruqaa text-lg sm:text-xl block">صَهيلُ البيان (الخطابة)</strong>
+        </div>
+      </button>
+
+      <button type="button" role="tab" aria-selected="false" data-scroll="proverbs"
+              class="scroll-tab p-4 rounded-2xl border text-right transition cursor-pointer flex items-center gap-3">
+        <span class="w-9 h-9 rounded-xl flex items-center justify-center font-kufi font-bold text-sm shrink-0"
+              style="background-color: var(--accent-ember-soft); color: var(--accent-ember);">٣</span>
+        <div>
+          <span class="text-[11px] block opacity-80">الرِّقُّ الثَّالث</span>
+          <strong class="font-ruqaa text-lg sm:text-xl block">زُبدَةُ التَّجارب (الأمثال)</strong>
+        </div>
+      </button>
+
+      <button type="button" role="tab" aria-selected="false" data-scroll="knowledge"
+              class="scroll-tab p-4 rounded-2xl border text-right transition cursor-pointer flex items-center gap-3">
+        <span class="w-9 h-9 rounded-xl flex items-center justify-center font-kufi font-bold text-sm shrink-0"
+              style="background-color: var(--accent-ember-soft); color: var(--accent-ember);">٤</span>
+        <div>
+          <span class="text-[11px] block opacity-80">الرِّقُّ الرَّابع</span>
+          <strong class="font-ruqaa text-lg sm:text-xl block">نَجمُ الدَّليلِ وسَجعُ الكاهن</strong>
+        </div>
+      </button>
+    </div>
+
+    <!-- مساحة عرض الرِّقّ المفتوح -->
+    <div id="scrollStageContainer" class="min-h-[430px]">
+      <!-- يُحقن المحتوى تفاعلياً -->
+    </div>
+  </section>
+
+  <!-- شريط سدو فاصل بين الأقسام -->
+  <div class="sadu-ribbon opacity-90"></div>
+
+  <!-- ========================================================================
+       القسم الثاني: قافلةُ الأسواق الأدبية (مسار تفاعلي عبر البادية)
+       ======================================================================== -->
+  <section id="caravan-markets" class="relative z-10 py-20 sm:py-24 px-4 sm:px-6 lg:px-8"
+           style="background-color: var(--bg-stone);">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="font-kufi text-xs sm:text-sm font-bold tracking-wider uppercase block mb-2" style="color: var(--accent-gold);">
+          ❖ السِّفرُ الثَّاني • مَحطَّاتُ القوافلِ الثَّقافية ❖
+        </span>
+        <h2 class="font-ruqaa text-3xl sm:text-5xl font-bold mb-4">قافلةُ الأسواقِ الأدبيةِ في الأشهرِ الحُرُم</h2>
+        <p class="text-sm sm:text-base" style="color: var(--text-sand);">
+          ارتحِلْ مع قوافلِ العربِ بينَ أسواقِهم الكبرى؛ حيثُ تضعُ الحربُ أوزارَها، وتُعقدُ مجالسُ النَّقدِ والتحكيمِ وتوحيدِ اللِّسان.
+        </p>
+      </div>
+
+      <!-- خريطة مسار القافلة التفاعلية (SVG Trail + Interactive Stops) -->
+      <div class="leather-texture rounded-3xl p-6 sm:p-10 mb-8">
+        <div class="relative py-4">
+          <!-- مسار القافلة المرسوم بـ SVG -->
+          <svg class="hidden md:block w-full h-16 mb-2" viewBox="0 0 900 60" fill="none" preserveAspectRatio="none">
+            <path d="M 150 30 Q 300 5, 450 30 T 750 30" stroke="var(--accent-ember)" stroke-width="2.5" stroke-dasharray="8 8" />
+            <circle cx="150" cy="30" r="6" fill="var(--accent-gold)" />
+            <circle cx="450" cy="30" r="6" fill="var(--accent-gold)" />
+            <circle cx="750" cy="30" r="6" fill="var(--accent-gold)" />
+          </svg>
+
+          <!-- محطات الأسواق الثلاث -->
+          <div id="caravanStopsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- تُبنى المحطات عبر JS -->
+          </div>
+        </div>
+
+        <!-- لوحة تفاصيل المحطة المختارة -->
+        <div id="caravanDetailPanel" class="mt-8 pt-8 border-t" style="border-color: var(--border-carved);">
+          <!-- تُحقن التفاصيل عبر JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       القسم الثالث: سِجالُ المعنى (مختبر تحليل البيئة والفكر)
+       ======================================================================== -->
+  <section id="meaning-debate" class="relative z-10 py-20 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
+      <div>
+        <span class="font-kufi text-xs sm:text-sm font-bold tracking-wider uppercase block mb-2" style="color: var(--accent-ember);">
+          ❖ السِّفرُ الثَّالث • تَفكيكُ الشَّواهدِ والظَّواهر ❖
+        </span>
+        <h2 class="font-ruqaa text-3xl sm:text-5xl font-bold">سِجالُ المعنى: مُختبرُ البيئةِ والفِكر</h2>
+      </div>
+      <p class="max-w-xl text-sm sm:text-base" style="color: var(--text-sand);">
+        اخترْ شاهداً أدبياً أو ظاهرةً عقليةً جاهلية، ليكشفَ لكَ السِّفرُ طبقاتِها الثلاث: أثرَ الصحراء، الآليةَ العقلية، والسبكَ البلاغي.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <!-- قائمة الشواهد -->
+      <div class="lg:col-span-4 space-y-3" id="debateSelectorList">
+        <!-- أزرار الاختيار -->
+      </div>
+
+      <!-- لوحة التفكيك ثلاثي الطبقات -->
+      <div class="lg:col-span-8 leather-texture musnad-corner rounded-3xl p-6 sm:p-10">
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-5 mb-6 border-b"
+             style="border-color: var(--border-carved);">
+          <div>
+            <span id="debateBadge" class="inline-block px-3 py-1 rounded-full text-xs font-bold mb-2"
+                  style="background-color: var(--accent-ember-soft); color: var(--accent-ember);"></span>
+            <h3 id="debateTitle" class="font-ruqaa text-2xl sm:text-3xl font-bold"></h3>
+          </div>
+
+          <button type="button" onclick="copyDebateText()"
+                  class="px-4 py-2 rounded-xl text-xs font-bold border transition cursor-pointer flex items-center gap-2"
+                  style="border-color: var(--border-strong); color: var(--accent-gold); background-color: var(--bg-stone);">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+            </svg>
+            <span id="copyDebateLabel">نَسخُ النَّصِّ المَنقوش</span>
+          </button>
+        </div>
+
+        <!-- الشاهد المنقوش -->
+        <blockquote class="stone-tablet rounded-2xl p-6 sm:p-8 mb-8 text-center">
+          <p id="debateQuote" class="font-amiri text-2xl sm:text-3xl lg:text-4xl font-bold leading-loose" style="color: var(--accent-gold);"></p>
+          <footer id="debateSource" class="text-xs sm:text-sm mt-3 font-medium" style="color: var(--text-sand);"></footer>
+        </blockquote>
+
+        <!-- الطبقات الثلاث للتحليل -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="stone-tablet rounded-2xl p-5">
+            <span class="font-kufi text-xs font-bold block mb-2" style="color: var(--accent-ember);">
+              ١. أثرُ البيئةِ الصَّحراوية
+            </span>
+            <p id="layerEnvironment" class="text-sm leading-relaxed" style="color: var(--text-sand);"></p>
+          </div>
+
+          <div class="stone-tablet rounded-2xl p-5">
+            <span class="font-kufi text-xs font-bold block mb-2" style="color: var(--accent-gold);">
+              ٢. الآليَّةُ العقليةُ المُستخدمة
+            </span>
+            <p id="layerCognition" class="text-sm leading-relaxed" style="color: var(--text-sand);"></p>
+          </div>
+
+          <div class="stone-tablet rounded-2xl p-5">
+            <span class="font-kufi text-xs font-bold block mb-2" style="color: var(--accent-crimson);">
+              ٣. الأثرُ اللُّغويُّ والبلاغي
+            </span>
+            <p id="layerRhetoric" class="text-sm leading-relaxed" style="color: var(--text-sand);"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       القسم الرابع: خصائصُ العقل الجاهلي وخلاصةُ المسير
+       ======================================================================== -->
+  <section id="traits-summary" class="relative z-10 py-20 sm:py-24 px-4 sm:px-6 lg:px-8 border-y"
+           style="background-color: var(--bg-stone); border-color: var(--border-carved);">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-3xl mx-auto mb-14">
+        <span class="font-kufi text-xs sm:text-sm font-bold tracking-wider uppercase block mb-2" style="color: var(--accent-gold);">
+          ❖ السِّفرُ الرَّابع • السِّماتُ الجامعة ❖
+        </span>
+        <h2 class="font-ruqaa text-3xl sm:text-5xl font-bold mb-4">خصائصُ العقلِ الجاهليِّ وخلاصةُ المسير</h2>
+        <p class="text-sm sm:text-base" style="color: var(--text-sand);">
+          خمسُ سماتٍ كبرى طبعتِ الذهنيةَ العربيةَ قبلَ الإسلام، ومهّدتْ لبناءِ صرحِ الحضارةِ والأدبِ العربيِّ بعدَ البعثة.
+        </p>
+      </div>
+
+      <!-- الشبكة الخماسية للخصائص -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 mb-12">
+        <div class="leather-texture rounded-2xl p-5 text-center">
+          <div class="w-11 h-11 rounded-full mx-auto mb-3 flex items-center justify-center font-kufi font-bold"
+               style="background-color: var(--accent-ember-soft); color: var(--accent-ember);">١</div>
+          <h3 class="font-ruqaa text-xl font-bold mb-2" style="color: var(--accent-gold);">الفِطرةُ والبديهة</h3>
+          <p class="text-xs leading-relaxed" style="color: var(--text-sand);">
+            ذكاءٌ فطريٌّ غيرُ متكلّف، وقدرةٌ عفويةٌ على ارتجالِ القولِ وإصابةِ المعنى دونَ تكلّفٍ مدرسي.
+          </p>
+        </div>
+
+        <div class="leather-texture rounded-2xl p-5 text-center">
+          <div class="w-11 h-11 rounded-full mx-auto mb-3 flex items-center justify-center font-kufi font-bold"
+               style="background-color: var(--accent-gold-soft); color: var(--accent-gold);">٢</div>
+          <h3 class="font-ruqaa text-xl font-bold mb-2" style="color: var(--accent-gold);">القوَّةُ اللُّغوية</h3>
+          <p class="text-xs leading-relaxed" style="color: var(--text-sand);">
+            امتلاكُ ناصيةِ البيانِ والاشتقاق، والدقةُ المتناهيةُ في تسميةِ الأشياءِ وتصويرِ المشاعر.
+          </p>
+        </div>
+
+        <div class="leather-texture rounded-2xl p-5 text-center">
+          <div class="w-11 h-11 rounded-full mx-auto mb-3 flex items-center justify-center font-kufi font-bold"
+               style="background-color: var(--accent-crimson-soft); color: var(--accent-crimson);">٣</div>
+          <h3 class="font-ruqaa text-xl font-bold mb-2" style="color: var(--accent-gold);">الطَّابعُ الشَّفوي</h3>
+          <p class="text-xs leading-relaxed" style="color: var(--text-sand);">
+            الاعتمادُ على قوّةِ الذاكرةِ والروايةِ المباشرة، واتخاذُ الوزنِ والقافيةِ وعاءً لحفظِ التراث.
+          </p>
+        </div>
+
+        <div class="leather-texture rounded-2xl p-5 text-center">
+          <div class="w-11 h-11 rounded-full mx-auto mb-3 flex items-center justify-center font-kufi font-bold"
+               style="background-color: var(--accent-ember-soft); color: var(--accent-ember);">٤</div>
+          <h3 class="font-ruqaa text-xl font-bold mb-2" style="color: var(--accent-gold);">تقديمُ المعنى</h3>
+          <p class="text-xs leading-relaxed" style="color: var(--text-sand);">
+            الاحتفاءُ بصدقِ التجربةِ وجوهرِ الحكمةِ على حسابِ الزخرفِ اللفظيِّ المصطنع.
+          </p>
+        </div>
+
+        <div class="leather-texture rounded-2xl p-5 text-center md:col-span-2 lg:col-span-1">
+          <div class="w-11 h-11 rounded-full mx-auto mb-3 flex items-center justify-center font-kufi font-bold"
+               style="background-color: var(--accent-gold-soft); color: var(--accent-gold);">٥</div>
+          <h3 class="font-ruqaa text-xl font-bold mb-2" style="color: var(--accent-gold);">الميلُ للخيالِ والتأمُّل</h3>
+          <p class="text-xs leading-relaxed" style="color: var(--text-sand);">
+            التحليقُ في فضاءِ الأساطيرِ والتأمّلُ العميقُ في أسرارِ الكونِ والمجهول.
+          </p>
+        </div>
+      </div>
+
+      <!-- خاتمة المسير (الجسر نحو عصر الإسلام) -->
+      <div class="leather-texture musnad-corner rounded-3xl p-6 sm:p-10 text-center max-w-4xl mx-auto">
+        <span class="font-kufi text-xs font-bold uppercase tracking-wider block mb-2" style="color: var(--accent-ember);">
+          خاتمةُ السِّفر • الأساسُ المتين
+        </span>
+        <h3 class="font-ruqaa text-2xl sm:text-4xl font-bold mb-4" style="color: var(--accent-gold);">
+          مِنْ فجرِ الباديةِ إلى شمسِ الحضارة
+        </h3>
+        <p class="font-amiri text-lg sm:text-xl leading-relaxed" style="color: var(--text-ivory);">
+          لم تكنِ الحياةُ العقليةُ في العصرِ الجاهليِّ صفحةً مطويةً في الظلام، بل كانتْ <strong style="color: var(--accent-gold);">الجِذْرَ الضَّارِبَ في الأعماق</strong> الذي استوى عليه عودُ اللُّغةِ العربيةِ وبلاغتِها؛ فلمّا أشرقَ نورُ الإسلام، وجدَ لساناً مُرهَفاً، وعقلاً مُدرَّباً على البيانِ والاستدلال، فنهضَ بذلكَ التراثِ وبنى حضارةً أنارتِ العالم.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       القسم الخامس: مجلسُ السَّمَر (اختبار الفِطنة والنباهة)
+       ======================================================================== -->
+  <section id="samar-council" class="relative z-10 py-20 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+    <div class="text-center mb-12">
+      <span class="font-kufi text-xs sm:text-sm font-bold tracking-wider uppercase block mb-2" style="color: var(--accent-ember);">
+        ❖ السِّفرُ الخامس • مِيزانُ الفِطنة ❖
+      </span>
+      <h2 class="font-ruqaa text-3xl sm:text-5xl font-bold mb-3">مجلسُ السَّمَر: اختبارُ النَّباهة</h2>
+      <p class="text-sm sm:text-base" style="color: var(--text-sand);">
+        خمسُ مسائلَ من صميمِ تراثِ الباديةِ تختبرُ فِطنتكَ، وتمنحُكَ في ختامِ المجلسِ لقبَكَ التراثي.
+      </p>
+    </div>
+
+    <div id="samarQuizBox" class="leather-texture musnad-corner rounded-3xl p-6 sm:p-10">
+      <!-- يُدار الاختبار تفاعلياً عبر JS -->
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       التذييل وبطاقة التقديم الأكاديمي (خَتمُ الباحث)
+       ======================================================================== -->
+  <footer class="relative z-10 border-t" style="background-color: var(--bg-stone); border-color: var(--border-carved);">
+    <!-- شريط السدو البدوي -->
+    <div class="sadu-ribbon"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <!-- بطاقة خَتم الباحث القابلة للتعديل -->
+      <div class="leather-texture musnad-corner rounded-3xl p-6 sm:p-8 mb-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+        <div class="space-y-2">
+          <div class="inline-flex items-center gap-2 font-kufi text-xs font-bold uppercase tracking-wider" style="color: var(--accent-ember);">
+            <span>❖ خَتمُ الباحثِ وبطاقةُ العرض ❖</span>
+          </div>
+          <h3 class="font-ruqaa text-2xl sm:text-3xl font-bold" style="color: var(--accent-gold);">
+            رِقاعُ البادية: سِفرُ العقلِ العربيِّ قبلَ الإسلام
+          </h3>
+          <div class="flex flex-wrap gap-x-8 gap-y-2 pt-2 text-sm">
+            <div>
+              <span style="color: var(--text-sand);">خَطَّهُ وأعدَّهُ:</span>
+              <strong id="sealStudentName" class="font-bold mr-1" style="color: var(--accent-gold);">اسم الطالب / صاحبة المشروع</strong>
+            </div>
+            <div>
+              <span style="color: var(--text-sand);">الفوج / المقياس:</span>
+              <strong id="sealGroupName" class="font-bold mr-1">الأدب الجاهلي والحضارة العربية</strong>
+            </div>
+            <div>
+              <span style="color: var(--text-sand);">بإشرافِ الأستاذ/ة:</span>
+              <strong id="sealProfessorName" class="font-bold mr-1" style="color: var(--accent-ember);">اسم الأستاذ المشرف</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 shrink-0 no-print">
+          <button type="button" onclick="openSealModal()"
+                  class="px-5 py-2.5 rounded-xl text-sm font-bold transition cursor-pointer flex items-center gap-2 shadow-md"
+                  style="background-color: var(--accent-ember); color: #FFF8F0;">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>نَقشُ اسمِ الباحث</span>
+          </button>
+
+          <button type="button" onclick="window.print()"
+                  class="px-5 py-2.5 rounded-xl text-sm font-bold border transition cursor-pointer"
+                  style="border-color: var(--border-strong); color: var(--text-ivory); background-color: var(--bg-parchment);">
+            طِباعةُ السِّفر (PDF)
+          </button>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs" style="color: var(--text-sand);">
+        <p>سِفرٌ رقميٌّ تفاعليٌّ مُستلهَمٌ من تراثِ الباديةِ العربيةِ وعبقريةِ إنسانِها قبلَ الإسلام.</p>
+        <a href="#camp-entrance" class="font-bold hover:underline" style="color: var(--accent-gold);">العَودةُ إلى مَدخلِ المضارب ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       نافذة تخصيص خَتم الباحث (Modal بدون alert أو confirm)
+       ======================================================================== -->
+  <div id="sealModal" role="dialog" aria-modal="true" aria-labelledby="sealModalHeading"
+       class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm no-print">
+    <div class="leather-texture musnad-corner rounded-3xl max-w-md w-full p-6 sm:p-8 relative scroll-reveal">
+      <button type="button" onclick="closeSealModal()" aria-label="إغلاق النافذة"
+              class="absolute top-5 left-5 w-9 h-9 rounded-full flex items-center justify-center border cursor-pointer"
+              style="border-color: var(--border-carved); color: var(--text-sand);">
+        ✕
+      </button>
+
+      <h3 id="sealModalHeading" class="font-ruqaa text-2xl sm:text-3xl font-bold mb-2" style="color: var(--accent-gold);">
+        نَقشُ خَتمِ الباحث
+      </h3>
+      <p class="text-xs sm:text-sm mb-6" style="color: var(--text-sand);">
+        اكتبْ اسمَ الطالبِ والأستاذِ المشرفِ ليُنقَشَ مباشرةً في بطاقةِ العرضِ أسفلَ السِّفر.
+      </p>
+
+      <form id="sealForm" class="space-y-4">
+        <div>
+          <label for="fieldStudent" class="block text-xs font-bold mb-1.5">اسمُ الطالبِ أو الطالبة</label>
+          <input id="fieldStudent" type="text" placeholder="مثال: طارق بن زياد / مريم العبدلي"
+                 class="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none"
+                 style="background-color: var(--bg-stone); border-color: var(--border-strong); color: var(--text-ivory);" />
+        </div>
+
+        <div>
+          <label for="fieldGroup" class="block text-xs font-bold mb-1.5">الفوجُ أو التخصُّص</label>
+          <input id="fieldGroup" type="text" placeholder="مثال: الفوج 02 — دراسات أدبية"
+                 class="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none"
+                 style="background-color: var(--bg-stone); border-color: var(--border-strong); color: var(--text-ivory);" />
+        </div>
+
+        <div>
+          <label for="fieldProfessor" class="block text-xs font-bold mb-1.5">اسمُ الأستاذِ أو الأستاذة</label>
+          <input id="fieldProfessor" type="text" placeholder="مثال: أ.د. يوسف القاسمي"
+                 class="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none"
+                 style="background-color: var(--bg-stone); border-color: var(--border-strong); color: var(--text-ivory);" />
+        </div>
+
+        <div class="pt-3 flex items-center justify-end gap-3">
+          <button type="button" onclick="closeSealModal()"
+                  class="px-4 py-2.5 rounded-xl text-sm font-medium border cursor-pointer"
+                  style="border-color: var(--border-carved); color: var(--text-sand);">
+            إلغاء
+          </button>
+          <button type="submit"
+                  class="px-6 py-2.5 rounded-xl text-sm font-bold cursor-pointer shadow-md"
+                  style="background-color: var(--accent-ember); color: #FFF8F0;">
+            تثبيتُ الخَتم
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       البرمجة التفاعلية للسِّفر (Canvas البادية، الرِّقاع، القوافل، والمجلس)
+       ======================================================================== -->
+  <script>
+    // =========================================================================
+    // 1. قاعدة البيانات التراثية والأكاديمية
+    // =========================================================================
+    const SCROLLS_DATA = {
+      poetry: {
+        title: "الرِّقُّ الأوَّل: ديوانُ العربِ وسِجلُّ أيَّامِهم",
+        subtitle: "كان الشِّعرُ لدى أهلِ الباديةِ ديوانَ علمِهم، وميزانَ شرفِهم، والمرآةَ التي حفظتْ تفاصيلَ حياتِهم اليومية وقيمَهم الأخلاقية.",
+        poets: [
+          {
+            name: "امرؤ القيس الكِندي",
+            epithet: "رائدُ الوصفِ الدَّقيقِ وهندسةِ الصُّورة",
+            verse: "مِكَرٍّ مِفَرٍّ مُقْبِلٍ مُدْبِرٍ مَعاً / كَجُلْمُودِ صَخْرٍ حَطَّهُ السَّيْلُ مِنْ عَلِ",
+            insight: "امتلكَ بصيرةً بصريةً نافذةً في رصدِ الطبيعةِ والحيوانِ والليلِ والمطر، فحوّلَ المشاهدَ الصحراويةَ المتحرّكةَ إلى لوحاتٍ فنيةٍ نابضةٍ بالحياة."
+          },
+          {
+            name: "عنترةُ بنُ شدَّاد العبسي",
+            epithet: "فارسُ المروءةِ والانتصارِ للإرادة",
+            verse: "وَلَقَدْ ذَكَرْتُكِ وَالرِّمَاحُ نَوَاهِلٌ / مِنِّي وَبِيضُ الهِنْدِ تَقْطُرُ مِنْ دَمِي",
+            insight: "لم يكنْ شعرُهُ مجرّدَ حماسٍ حربي، بل جسّدَ صراعَ الإنسانِ الحرِّ لإثباتِ ذاتِه وكرامتِه بالبطولةِ والعِفّةِ وكرمِ الأخلاقِ في مجتمعٍ طبقي."
+          },
+          {
+            name: "زُهيرُ بنُ أبي سُلمى",
+            epithet: "حكيمُ الشُّعراءِ وفيلسوفُ السِّلم",
+            verse: "سَئِمْتُ تَكَالِيفَ الحَيَاةِ وَمَنْ يَعِشْ / ثَمَانِينَ حَوْلاً لا أَبَا لَكَ يَسْأَمِ",
+            insight: "عُرفَ بالحوليّاتِ التي ينقّحُها عاماً كاملاً إجلالاً للكلمة، ودعا إلى العقلانيةِ وحقنِ الدماءِ وإصلاحِ ذاتِ البينِ بعيداً عن نزواتِ الثأر."
+          },
+          {
+            name: "طَرَفةُ بنُ العبد البكري",
+            epithet: "صاحبُ التَّأمُّلِ الوجوديِّ المبكِّر",
+            verse: "أَرَى قَبْرَ نَحَّامٍ بَخِيلٍ بِمَالِهِ / كَقَبْرِ غَوِيٍّ فِي البَطَالَةِ مُفْسِدِ",
+            insight: "غاصَ بعقلِه الشابِّ في أسئلةِ الوجودِ والموتِ والمساواةِ الإنسانية، كاشفاً عن وعيٍ فلسفيٍّ يتجاوزُ القشورَ الاجتماعيةَ إلى جوهرِ المصير."
+          }
+        ]
+      },
+      oratory: {
+        title: "الرِّقُّ الثَّاني: صَهيلُ البيانِ وفنُّ الإقناع",
+        subtitle: "في مجالسِ الشُّورى، ومواسمِ الحجّ، وميادينِ الصُّلحِ بينَ القبائل، كانتِ الخطابةُ سلاحَ الحُجَّةِ وسرعةِ البديهةِ والتأثير.",
+        orators: [
+          {
+            name: "قُسُّ بنُ ساعدةَ الإيادي",
+            title: "خطيبُ عُكاظ وحكيمُ الاستدلالِ الكوني",
+            excerpt: "«أَيُّهَا النَّاسُ اسْمَعُوا وَعُوا، مَنْ عَاشَ مَاتَ، وَمَنْ مَاتَ فَاتَ، وَكُلُّ مَا هُوَ آتٍ آتٍ؛ لَيْلٌ دَاجٍ، وَنَهَارٌ سَاجٍ، وَسَمَاءٌ ذَاتُ أَبْرَاجٍ، وَنُجُومٌ تَزْهَرُ، وَبِحَارٌ تَزْخَرُ...»",
+            analysis: "تُعدُّ خطبتُهُ أُنموذجاً رفيعاً للخطابةِ الفلسفيةِ في الجاهلية؛ إذ جمعَ بينَ الإيقاعِ المسجوعِ القصيرِ والاستدلالِ العقليِّ بآياتِ الكونِ لإيقاظِ العقولِ وتذكيرِها بحتميةِ البعث."
+          },
+          {
+            name: "سَحبانُ وائل الباهلي",
+            title: "مَضربُ المثلِ في الفصاحةِ والارتجال",
+            excerpt: "قالتِ العربُ في سَيرورةِ بيانِه: «أَخْطَبُ مِنْ سَحْبَان»؛ فقد كانَ يرتجلُ الخطبةَ الطَّويلةَ في المحافلِ دونَ أنْ يتلعثمَ أو يعيدَ لفظةً أو يتوقّف.",
+            analysis: "يمثّلُ سحبان ذروةَ السيطرةِ اللغويةِ وحضورِ البديهة؛ حيثُ تتدفّقُ المعاني في ذهنِه مرتّبةً محكمةً دونَ تدوينٍ مسبق."
+          }
+        ]
+      },
+      proverbs: {
+        title: "الرِّقُّ الثَّالث: زُبدَةُ التَّجاربِ في الأمثالِ والحِكَم",
+        subtitle: "المثلُ الجاهليُّ خلاصةُ تجربةٍ إنسانيةٍ صاغَها العقلُ العربيُّ في عبارةٍ موجزةٍ سريعةِ السَّيرورة. انقرْ على أيِّ رِقٍّ جلديٍّ لقلبِه وكشفِ قصّتِه.",
+        items: [
+          {
+            proverb: "«سَبَقَ السَّيْفُ العَذَلَ»",
+            category: "في الحَسمِ وتبعاتِ القرار",
+            story: "قالَهُ ضَبَّةُ بنُ أُدٍّ حينَ لقيَ قاتلَ ابنِه في الأشهرِ الحُرُمِ فقتلَهُ، فلمّا لامَهُ الناسُ على انتهاكِ حرمةِ الشهرِ أجابَ بهذه العبارةِ الخالدة.",
+            moral: "إدراكٌ واقعيٌّ بأنَّ الأفعالَ المصيريةَ إذا وقعتْ لا يردُّها اللومُ المتأخّر، ممّا يدعو إلى التروّي قبلَ الإقدام."
+          },
+          {
+            proverb: "«وَافَقَ شَنٌّ طَبَقَةَ»",
+            category: "في التَّكافؤِ الذِّهني",
+            story: "قصةُ «شَنٍّ» أحدِ دُهاةِ العربِ الذي طرحَ ألغازاً رمزيةً في سفرِه فلمْ يفهمْها إلّا «طَبَقَةُ» بنتُ الأسودِ بذكائِها، فتزوّجها لتكافؤِ عقلَيهما.",
+            moral: "تقديرُ العقلِ الجاهليِّ للنباهةِ وسرعةِ الفهم، وإيمانُه بأنَّ التوافقَ الفكريَّ هو أساسُ الألفةِ الإنسانية."
+          },
+          {
+            proverb: "«عِنْدَ الصَّبَاحِ يَحْمَدُ القَوْمُ السُّرَى»",
+            category: "في الصَّبرِ وحُسنِ العاقبة",
+            story: "مَثَلٌ نابعٌ من تجربةِ السَّيرِ الليليِّ في البادية؛ إذ يتحمّلُ المسافرُ مشقّةَ السَّهرِ والظلامِ ليبلغَ الماءَ والأمانَ مع إشراقةِ الفجر.",
+            moral: "حكمةٌ عقلانيةٌ تُعلي من شأنِ المثابرةِ وتحمّلِ المشاقِّ الآنيةِ في سبيلِ بلوغِ الغاياتِ الكريمة."
+          },
+          {
+            proverb: "«رُبَّ عَجَلَةٍ تَهَبُ رَيْثاً»",
+            category: "في التَّأنِّي والتَّدبير",
+            story: "أطلقَهُ حُكماءُ العربِ تحذيراً من التسرُّعِ في قطعِ المفاوزِ أو البتِّ في الخصوماتِ دونَ تثبُّتٍ واستعداد.",
+            moral: "فهمٌ دقيقٌ للسلوكِ البشري؛ فالتعجُّلُ غيرُ المحسوبِ يوقعُ صاحبَهُ في الخطأ، فيضطرُّ لإعادةِ العملِ وتأخيرِ النتيجة."
+          },
+          {
+            proverb: "«إِنَّ البَلَاءَ مُوَكَّلٌ بِالمَنْطِقِ»",
+            category: "في صَونِ اللِّسانِ والحِكمة",
+            story: "حكمةٌ جاهليةٌ تداولتْها الأجيالُ لتنبيهِ المتكلّمِ إلى أنَّ الكلمةَ الطائشةَ قد تجرُّ على صاحبِها وقبيلتِه الويلاتِ والحروب.",
+            moral: "وعيٌ عميقٌ بمسؤوليةِ الكلمةِ وخطورتِها في مجتمعٍ يعتمدُ على البيانِ الشفويِّ في السِّلمِ والحرب."
+          },
+          {
+            proverb: "«الحَزْمُ قَبْلَ العَزْمِ، وَالصَّبْرُ مِفْتَاحُ الظَّفَرِ»",
+            category: "في الجدِّ والاجتهادِ والتَّخطيط",
+            story: "من جوامعِ حِكمِ مجالسِ السَّمرِ والوصايا العربيةِ التي تربطُ النجاحَ بإحكامِ الرأيِ أولاً ثمَّ الصَّبرِ والمثابرةِ في العمل.",
+            moral: "يؤكّدُ أنَّ الظَّفرَ في الحياةِ لا يُنالُ بالتمنّي، بل بالتخطيطِ السليمِ والعملِ الدؤوبِ والصبرِ على الشدائد."
+          }
+        ]
+      },
+      knowledge: {
+        title: "الرِّقُّ الرَّابع: بينَ نَجمِ الدَّليلِ وسَجعِ الكاهن",
+        subtitle: "تجاوَرتْ في العقلِ الجاهليِّ نزعتان: نزعةٌ تجريبيةٌ عمليةٌ فرضتْها حياةُ الصحراء، ونزعةٌ غيبيةٌ حاولتْ استكناهَ المجهول.",
+        empirical: [
+          {
+            name: "القِيافةُ والفِراسة",
+            desc: "قراءةُ آثارِ الأقدامِ في الرِّمالِ لمعرفةِ السائرين (القيافة)، والاستدلالُ بملامحِ الوجهِ والهيئةِ على الطبائعِ والأخلاق (الفراسة)."
+          },
+          {
+            name: "عِلمُ الأنواءِ والنُّجوم",
+            desc: "تقسيمُ السنةِ إلى ٢٨ منزلةً قمريةً للاهتداءِ ليلاً في الفلوات، والتنبؤِ بمواسمِ الأمطارِ والرياحِ والخصب."
+          },
+          {
+            name: "عِلمُ الأنسابِ وأيَّامُ العرب",
+            desc: "حفظُ شجراتِ النَّسبِ والتحالفاتِ القبليةِ والوقائعِ التاريخية، ممّا مثّلَ السجلَّ المدنيَّ والتاريخيَّ للمجتمع."
+          },
+          {
+            name: "الطِّبُّ التَّجريبيُّ والبيطرة",
+            desc: "التداوي بالأعشابِ الصحراويةِ والكيِّ والتجبير (كما عند الحارث بن كلدة)، ومعرفةُ أمراضِ الإبلِ والخيل."
+          }
+        ],
+        metaphysical: [
+          {
+            name: "الكِهانةُ والعِرافة",
+            desc: "ادّعاءُ بعضِ الكُهّان (مثل شِقٍّ وسَطيح) القدرةَ على الإخبارِ بالمغيّباتِ وتفسيرِ الرؤى والأحداثِ الغامضة."
+          },
+          {
+            name: "أسلوبُ السَّجعِ الغامض",
+            desc: "اعتمدَ الكاهنُ على الجُملِ المسجوعةِ القصيرةِ والألفاظِ المُبهمةِ ذاتِ المعاني المحتملةِ لإيهامِ الناسِ بقدراتِه."
+          },
+          {
+            name: "الزَّجرُ وعيافةُ الطَّير",
+            desc: "التفاؤلُ أو التشاؤمُ باتجاهِ طيرانِ الطيرِ أو مرورِ الظباءِ (السانحُ والبارح) بحثاً عن تفسيرٍ للمجهولِ قبلَ السفر."
+          }
+        ]
+      }
+    };
+
+    const CARAVAN_MARKETS = [
+      {
+        id: "ukaz",
+        name: "سُوقُ عُكاظ",
+        timing: "١ – ٢٠ ذي القعدة",
+        location: "بين نخلة والطائف",
+        role: "المنتدى الأدبي الأعلى ومحكمة النقد",
+        description: "أشهرُ أسواقِ الجاهليةِ وأعظمُها أثراً في الحياةِ العقلية؛ كانتْ تُضربُ فيه قُبَّةٌ حمراءُ للنابغةِ الذبياني ليحتكمَ إليه الشعراء، وتُلقى فيه الخطبُ الخالدة، وتُعقدُ المواثيقُ وتُفكُّ الأسرى.",
+        impact: "أسهمَ التنافسُ الشعريُّ والخطابيُّ في عكاظ في تهذيبِ الأساليب، وتنقيةِ المفرداتِ من الغرابة، وتوحيدِ اللسانِ العربيِّ الفصيح."
+      },
+      {
+        id: "majanna",
+        name: "سُوقُ مَجَنَّة",
+        timing: "العشر الأواخر من ذي القعدة",
+        location: "بأسفل مكة قرب مرّ الظهران",
+        role: "ملتقى التجارة والرواية الشفوية",
+        description: "ترتحلُ إليه القوافلُ فورَ انقضاءِ موسمِ عكاظ؛ حيثُ تمتزجُ حركةُ البيعِ والشراءِ بمجالسِ السَّمرِ وإنشادِ القصائدِ التي فازتْ في عكاظ.",
+        impact: "عملَ بوصفِه محطّةً لنشرِ الروائعِ الأدبيةِ وتداولِ الأمثالِ والحِكمِ بينَ قبائلِ الشمالِ والجنوب."
+      },
+      {
+        id: "dhul-majaz",
+        name: "سُوقُ ذي المَجاز",
+        timing: "١ – ٨ ذي الحجة",
+        location: "خلف جبل عرفة",
+        role: "الموسم الختامي وميثاق السلم",
+        description: "المحطّةُ الأخيرةُ في قافلةِ الأسواقِ الكبرى قبيلَ الوقوفِ بعرفة؛ شهدَ مفاوضاتٍ قبليةً كبرى وخطباً سياسيةً بليغةً أطفأتْ نيرانَ الحروب.",
+        impact: "رسّخَ مكانةَ الكلمةِ البليغةِ أداةً للسِّلمِ الاجتماعيِّ والتفاهمِ القبليِّ في الأشهرِ الحرم."
+      }
+    ];
+
+    const DEBATE_ARTIFACTS = [
+      {
+        id: "zuhayr-peace",
+        badge: "الشِّعرُ والحِكمةُ الاجتماعية",
+        title: "قانونُ المسؤوليةِ الأخلاقيةِ عند زُهير",
+        quote: "وَمَهْمَا تَكُنْ عِنْدَ امْرِئٍ مِنْ خَلِيقَةٍ / وَإِنْ خَالَهَا تَخْفَى عَلَى النَّاسِ تُعْلَمِ",
+        source: "زُهير بن أبي سُلمى — المعلّقة",
+        environment: "في مجتمعِ الباديةِ المفتوحِ حيثُ يتكافلُ الأفرادُ للبقاء، لا يمكنُ للمرءِ أن يعيشَ معزولاً، فتنكشفُ معادنُ الرجالِ في الشدائدِ والترحال.",
+        cognition: "استقراءٌ نفسيٌّ واجتماعيٌّ يربطُ بينَ السلوكِ الباطنِ وانكشافِه للعيان، ليؤسّسَ لرقابةِ الضميرِ والصدقِ مع الذات.",
+        rhetoric: "بناءٌ شرطيٌّ جازمٌ («ومهما تكن... تُعلم») يمنحُ البيتَ صرامةَ القانونِ العقلي، مع طباقٍ بينَ «تخفى» و«تُعلم»."
+      },
+      {
+        id: "qays-cosmos",
+        badge: "الخَطابةُ والاستدلالُ الكوني",
+        title: "تأمُّلُ قُسِّ بنِ ساعدةَ في سننِ الكون",
+        quote: "«مَا بَالُ النَّاسِ يَذْهَبُونَ وَلَا يَرْجِعُونَ؟ أَرَضُوا فَأَقَامُوا، أَمْ تُرِكُوا فَنَامُوا؟»",
+        source: "قُسُّ بنُ ساعدةَ الإيادي — خُطبةُ عُكاظ",
+        environment: "سماءُ الصحراءِ الصافيةُ ليلاً وتعاقبُ الفصولِ والموتِ والحياةِ في الفلواتِ دفعا المتأمّلين إلى مساءلةِ الظواهرِ الكونية.",
+        cognition: "استخدامُ الاستفهامِ الحِجاجيِّ لنقضِ الغفلةِ والاستدلالِ بنظامِ الكونِ على وجودِ خالقٍ مدبّرٍ وبعثٍ بعدَ الموت.",
+        rhetoric: "سجعٌ متوازنٌ قصيرُ الفواصلِ يجمعُ بينَ الإيقاعِ الموسيقيِّ المؤثّرِ وقوّةِ المنطقِ الاستنكاري."
+      },
+      {
+        id: "proverb-camel",
+        badge: "الأمثالُ وفلسفةُ التَّدبير",
+        title: "حكمةُ التَّوازنِ في التَّرحالِ والعمل",
+        quote: "«إِنَّ المُنْبَتَّ لَا أَرْضاً قَطَعَ وَلَا ظَهْراً أَبْقَى»",
+        source: "مِنْ أمثالِ العربِ السَّائرةِ في البادية",
+        environment: "مستمدٌّ مباشرةً من خبرةِ قطعِ المفاوزِ على ظهورِ الإبل؛ فالمسافرُ الذي يُجهدُ ناقتَهُ فوقَ طاقتِها ينقطعُ به الطريقُ في المهالك.",
+        cognition: "قاعدةٌ عقلانيةٌ في إدارةِ المواردِ والجهد، تحذّرُ من الاندفاعِ غيرِ المحسوبِ وتدعو إلى التدرّجِ المستدام.",
+        rhetoric: "إيجازٌ بليغٌ قائمٌ على النفيِ المزدوجِ («لا أرضاً قطع ولا ظهراً أبقى») لتصويرِ الخسارةِ المزدوجةِ في أربعِ كلمات."
+      }
+    ];
+
+    const SAMAR_QUESTIONS = [
+      {
+        q: "لماذا سُمِّيَ العصرُ الجاهليُّ بهذا الاسمِ في لسانِ العرب؟",
+        options: [
+          "لانعدامِ الذكاءِ وعجزِ أهلِه عن التَّفكيرِ أو الإبداع",
+          "لجهلِ أهلِه بالدِّينِ السَّماويِّ وغلبةِ الحميةِ على الحِلم، لا لجهلِهم المطلق",
+          "لأنَّهم لم يعرفوا الشِّعرَ ولا الخطابةَ ولا الأسواق",
+          "لأنَّهم اعتمدوا على الكتبِ المترجمةِ فقط"
+        ],
+        answer: 1,
+        note: "الجهلُ هنا هو نقيضُ «الحِلم» وغيابُ الرسالةِ السماوية، أمّا في ميدانِ العقلِ واللغةِ فقد بلغوا شأواً عظيماً."
+      },
+      {
+        q: "كيفَ حفظَ العربُ في الباديةِ تاريخَهم وأنسابَهم وأشعارَهم في ظلِّ ندرةِ التدوين؟",
+        options: [
+          "عبرَ الرِّوايةِ الشَّفويةِ وقوَّةِ الذاكرةِ واتخاذِ الوزنِ والقافيةِ وعاءً للحفظ",
+          "عبرَ إرسالِ المخطوطاتِ إلى بلادِ الرُّومِ لحفظِها",
+          "عن طريقِ الاقتصارِ على النثرِ غيرِ الموزون",
+          "لم يُحفظْ شيءٌ من تراثِهم قبلَ الإسلام"
+        ],
+        answer: 0,
+        note: "امتلكَ العربيُّ ذاكرةً حادّة، وجعلَ من موسيقى الشِّعرِ وسجعِ الخطبِ وسيلةً لحفظِ ديوانِ حياتِه عبر الأجيال."
+      },
+      {
+        q: "أيُّ العلومِ الآتيةِ يعبِّرُ عن الذَّكاءِ العمليِّ والتَّجريبيِّ لأهلِ الصحراء؟",
+        options: [
+          "سجعُ الكُهّانِ الغامض",
+          "عِلمُ الأنواءِ ومنازلِ النجومِ والقِيافةُ (قراءةُ الأثر)",
+          "الاستقسامُ بالأزلام",
+          "الأساطيرُ المتعلّقةُ بالغيلان"
+        ],
+        answer: 1,
+        note: "عِلمُ الأنواءِ والقِيافةُ والفِراسةُ معارفُ قائمةٌ على الملاحظةِ الحسيةِ الدقيقةِ والتجربةِ الميدانية."
+      },
+      {
+        q: "ما الدَّورُ الحضاريُّ الأبرزُ لسوقِ عُكاظ وأخواتِه (مَجَنَّة وذي المَجاز)؟",
+        options: [
+          "إشعالُ الحروبِ القبليةِ في الأشهرِ الحُرُم",
+          "تأسيسُ النَّقدِ الأدبيِّ والتَّحكيمِ وتوحيدُ اللُّغةِ العربيةِ الفُصحى",
+          "منعُ الشعراءِ من إنشادِ القصائدِ أمامَ القبائل",
+          "الاقتصارُ على بيعِ التمورِ والإبلِ دونَ أيِّ نشاطٍ ثقافي"
+        ],
+        answer: 1,
+        note: "كانتِ الأسواقُ الأدبيةُ منتدياتٍ للتحكيمِ الشعريِّ والخطابي، ممّا صهرَ اللهجاتِ ووحدَ اللسانَ العربي."
+      },
+      {
+        q: "ما الدلالةُ الفكريةُ للمثلِ الجاهليِّ: «سَبَقَ السَّيْفُ العَذَلَ»؟",
+        options: [
+          "أنَّ اللومَ المتأخّرَ لا يردُّ أمراً مصيرياً قد حُسم، ممّا يوجبُ التروّي قبلَ الفعل",
+          "أنَّ السيفَ يغني دائماً عن العقلِ والحوار",
+          "أنَّ العجلةَ أفضلُ من التأني في كلِّ الأحوال",
+          "أنَّ الإنسانَ لا يُسألُ عن عواقبِ أفعالِه"
+        ],
+        answer: 0,
+        note: "يُلخّصُ المثلُ إدراكَ العقلِ العربيِّ لحتميةِ النتائجِ وضرورةِ التفكيرِ قبلَ الإقدامِ على القراراتِ الخطيرة."
+      }
+    ];
+
+    // =========================================================================
+    // 2. تبديل الأجواء الصحراوية (نار السمر والنجوم / وهج الضحى والرمال)
+    // =========================================================================
+    const atmosphereToggleBtn = document.getElementById("atmosphereToggleBtn");
+    const atmosphereLabel = document.getElementById("atmosphereLabel");
+    const atmosphereIcon = document.getElementById("atmosphereIcon");
+
+    function setAtmosphere(mode) {
+      document.documentElement.setAttribute("data-atmosphere", mode);
+      if (mode === "daylight") {
+        atmosphereLabel.textContent = "نارُ السَّمَر";
+        atmosphereIcon.innerHTML = `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      } else {
+        atmosphereLabel.textContent = "وَهَجُ الضُّحى";
+        atmosphereIcon.innerHTML = `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-linecap="round"/></svg>`;
+      }
+      try {
+        localStorage.setItem("riqaa_atmosphere", mode);
+      } catch (e) {}
+    }
+
+    atmosphereToggleBtn.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-atmosphere");
+      setAtmosphere(current === "campfire" ? "daylight" : "campfire");
+    });
+
+    // =========================================================================
+    // 3. لوحة البادية التفاعلية (سماء النجوم، الكثبان، وشرارات نار السمر)
+    // =========================================================================
+    function initDesertCanvas() {
+      const canvas = document.getElementById("desertNightCanvas");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      const readout = document.getElementById("constellationReadout");
+
+      let w = 0;
+      let h = 0;
+      let dpr = 1;
+      let pointer = { x: -1000, y: -1000 };
+
+      // منازل الأنواء والنجوم الملاحية عند العرب
+      const anwaStars = [
+        { name: "نَجمُ سُهَيل", info: "دليلُ القوافلِ نحو الجنوب وبشيرُ انكسارِ حرِّ القيظ في البادية", rx: 0.20, ry: 0.26, r: 4.5 },
+        { name: "مَنزلةُ الثُّريَّا", info: "أشهرُ منازلِ القمر؛ برصدِها عرفَ العربُ مواسمَ المطرِ والخصب", rx: 0.79, ry: 0.22, r: 4.8 },
+        { name: "كوكبةُ الجَوزاء", info: "من علاماتِ السَّماءِ البارزةِ لتحديدِ الأوقاتِ ومسالكِ الليل", rx: 0.50, ry: 0.16, r: 4.2 },
+        { name: "بَناتُ نَعش (الدُّب الأكبر)", info: "مرجعُ أهلِ الصحراءِ لتحديدِ جهةِ الشَّمالِ بدقّةٍ في الأسفار", rx: 0.15, ry: 0.52, r: 4.0 },
+        { name: "الشِّعرى اليمانيَّة", info: "ألمعُ نجومِ السماءِ ليلاً وموضعُ تأمُّلِ الشعراءِ والحكماء", rx: 0.84, ry: 0.48, r: 4.3 }
+      ];
+
+      let ambientStars = [];
+      let embers = [];
+      let sandParticles = [];
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = rect.width;
+        h = rect.height;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const starTotal = Math.min(85, Math.floor((w * h) / 12000));
+        ambientStars = Array.from({ length: starTotal }, () => ({
+          x: Math.random() * w,
+          y: Math.random() * h * 0.75,
+          size: Math.random() * 1.6 + 0.5,
+          phase: Math.random() * Math.PI * 2,
+          speed: Math.random() * 0.025 + 0.008
+        }));
+
+        // شرارات نار السمر المتصاعدة من أسفل الكثبان
+        embers = Array.from({ length: 28 }, () => createEmber(true));
+
+        // ذرات رمل ذهبية تتحرك مع نسيم البادية
+        sandParticles = Array.from({ length: 24 }, () => ({
+          x: Math.random() * w,
+          y: h * (0.68 + Math.random() * 0.3),
+          vx: -(Math.random() * 0.55 + 0.2),
+          vy: (Math.random() - 0.5) * 0.15,
+          size: Math.random() * 1.8 + 0.7,
+          alpha: Math.random() * 0.35 + 0.1
+        }));
+      }
+
+      function createEmber(randomY = false) {
+        return {
+          x: w * 0.5 + (Math.random() - 0.5) * (w * 0.35),
+          y: randomY ? h * (0.7 + Math.random() * 0.3) : h * 0.96,
+          vx: (Math.random() - 0.5) * 0.45,
+          vy: -(Math.random() * 0.75 + 0.35),
+          size: Math.random() * 2.4 + 1.0,
+          life: Math.random() * 100 + 80,
+          maxLife: 180
+        };
+      }
+
+      function inspectSky(clientX, clientY) {
+        const rect = canvas.getBoundingClientRect();
+        pointer.x = clientX - rect.left;
+        pointer.y = clientY - rect.top;
+
+        for (const s of anwaStars) {
+          const sx = s.rx * w;
+          const sy = s.ry * h;
+          if (Math.hypot(pointer.x - sx, pointer.y - sy) < 46) {
+            if (readout) {
+              readout.innerHTML = `<strong style="color: var(--accent-gold);">${s.name}:</strong> ${s.info}`;
+            }
+            break;
+          }
+        }
+      }
+
+      canvas.addEventListener("mousemove", (e) => inspectSky(e.clientX, e.clientY));
+      canvas.addEventListener("touchstart", (e) => {
+        if (e.touches.length > 0) inspectSky(e.touches[0].clientX, e.touches[0].clientY);
+      }, { passive: true });
+
+      window.addEventListener("resize", resize);
+      resize();
+
+      function render() {
+        const styles = getComputedStyle(document.documentElement);
+        const starRGB = styles.getPropertyValue("--star-rgb").trim() || "245, 235, 224";
+        const goldRGB = styles.getPropertyValue("--gold-rgb").trim() || "229, 181, 103";
+        const emberRGB = styles.getPropertyValue("--ember-rgb").trim() || "217, 119, 36";
+        const duneBack = styles.getPropertyValue("--dune-back").trim() || "#1E150E";
+        const duneMid = styles.getPropertyValue("--dune-mid").trim() || "#18110B";
+        const duneFront = styles.getPropertyValue("--dune-front").trim() || "#110C08";
+
+        ctx.clearRect(0, 0, w, h);
+
+        // 1. النجوم المتلألئة في سماء البادية
+        for (const st of ambientStars) {
+          st.phase += st.speed;
+          const alpha = 0.2 + Math.abs(Math.sin(st.phase)) * 0.55;
+          ctx.fillStyle = `rgba(${starRGB}, ${alpha.toFixed(2)})`;
+          ctx.beginPath();
+          ctx.arc(st.x, st.y, st.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // 2. خطوط التوصيل بين منازل الأنواء
+        ctx.strokeStyle = `rgba(${goldRGB}, 0.22)`;
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 6]);
+        ctx.beginPath();
+        anwaStars.forEach((s, idx) => {
+          const sx = s.rx * w;
+          const sy = s.ry * h;
+          if (idx === 0) ctx.moveTo(sx, sy);
+          else ctx.lineTo(sx, sy);
+        });
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // 3. النجوم الملاحية الرئيسية وهالتها
+        for (const s of anwaStars) {
+          const sx = s.rx * w;
+          const sy = s.ry * h;
+          const hovered = Math.hypot(pointer.x - sx, pointer.y - sy) < 46;
+
+          const halo = ctx.createRadialGradient(sx, sy, 0, sx, sy, hovered ? 28 : 15);
+          halo.addColorStop(0, `rgba(${goldRGB}, ${hovered ? 0.7 : 0.35})`);
+          halo.addColorStop(1, `rgba(${goldRGB}, 0)`);
+          ctx.fillStyle = halo;
+          ctx.beginPath();
+          ctx.arc(sx, sy, hovered ? 28 : 15, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = `rgba(${goldRGB}, 0.95)`;
+          ctx.beginPath();
+          ctx.arc(sx, sy, hovered ? s.r + 1.6 : s.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // 4. وهج نار السَّمَر الدافئ في أسفل الكثبان
+        const fireGlow = ctx.createRadialGradient(w * 0.5, h * 0.95, 10, w * 0.5, h * 0.95, w * 0.38);
+        fireGlow.addColorStop(0, `rgba(${emberRGB}, 0.22)`);
+        fireGlow.addColorStop(1, `rgba(${emberRGB}, 0)`);
+        ctx.fillStyle = fireGlow;
+        ctx.fillRect(0, h * 0.55, w, h * 0.45);
+
+        // 5. طبقات كثبان الرمل الصحراوية المتدرجة
+        // الكثيب الخلفي
+        ctx.fillStyle = duneBack;
+        ctx.beginPath();
+        ctx.moveTo(0, h);
+        ctx.lineTo(0, h * 0.80);
+        ctx.quadraticCurveTo(w * 0.25, h * 0.73, w * 0.52, h * 0.81);
+        ctx.quadraticCurveTo(w * 0.78, h * 0.88, w, h * 0.77);
+        ctx.lineTo(w, h);
+        ctx.closePath();
+        ctx.fill();
+
+        // الكثيب الأوسط
+        ctx.fillStyle = duneMid;
+        ctx.beginPath();
+        ctx.moveTo(0, h);
+        ctx.lineTo(0, h * 0.86);
+        ctx.quadraticCurveTo(w * 0.35, h * 0.91, w * 0.65, h * 0.82);
+        ctx.quadraticCurveTo(w * 0.86, h * 0.77, w, h * 0.85);
+        ctx.lineTo(w, h);
+        ctx.closePath();
+        ctx.fill();
+
+        // الكثيب الأمامي
+        ctx.fillStyle = duneFront;
+        ctx.beginPath();
+        ctx.moveTo(0, h);
+        ctx.lineTo(0, h * 0.92);
+        ctx.quadraticCurveTo(w * 0.45, h * 0.86, w * 0.75, h * 0.93);
+        ctx.quadraticCurveTo(w * 0.9, h * 0.96, w, h * 0.91);
+        ctx.lineTo(w, h);
+        ctx.closePath();
+        ctx.fill();
+
+        // 6. ذرات الرمل العائمة مع النسيم
+        for (const p of sandParticles) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0) p.x = w;
+          ctx.fillStyle = `rgba(${goldRGB}, ${p.alpha})`;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // 7. شرارات نار السَّمَر المتصاعدة برفق
+        for (let i = 0; i < embers.length; i++) {
+          const em = embers[i];
+          em.x += em.vx + Math.sin(em.life * 0.05) * 0.2;
+          em.y += em.vy;
+          em.life -= 1;
+          if (em.life <= 0 || em.y < h * 0.45) {
+            embers[i] = createEmber(false);
+            continue;
+          }
+          const alpha = Math.min(0.85, (em.life / em.maxLife) * 0.9);
+          ctx.fillStyle = `rgba(${emberRGB}, ${alpha.toFixed(2)})`;
+          ctx.beginPath();
+          ctx.arc(em.x, em.y, em.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        requestAnimationFrame(render);
+      }
+
+      render();
+    }
+
+    // =========================================================================
+    // 4. عرض الرِّقاع الأربعة (أركان الحياة العقلية)
+    // =========================================================================
+    const scrollTabs = document.querySelectorAll(".scroll-tab");
+    const scrollStage = document.getElementById("scrollStageContainer");
+
+    function openScroll(key) {
+      scrollTabs.forEach((btn) => {
+        const active = btn.dataset.scroll === key;
+        btn.setAttribute("aria-selected", active ? "true" : "false");
+        if (active) {
+          btn.style.backgroundColor = "var(--bg-parchment)";
+          btn.style.borderColor = "var(--accent-ember)";
+          btn.style.boxShadow = "var(--shadow-parchment)";
+        } else {
+          btn.style.backgroundColor = "var(--bg-stone)";
+          btn.style.borderColor = "var(--border-carved)";
+          btn.style.boxShadow = "none";
+        }
+      });
+
+      const content = SCROLLS_DATA[key];
+      if (!content) return;
+
+      let markup = `
+        <div class="scroll-reveal">
+          <div class="text-center max-w-3xl mx-auto mb-8">
+            <h3 class="font-ruqaa text-2xl sm:text-4xl font-bold mb-2" style="color: var(--accent-gold);">${content.title}</h3>
+            <p class="text-sm sm:text-base" style="color: var(--text-sand);">${content.subtitle}</p>
+          </div>
+      `;
+
+      if (key === "poetry") {
+        markup += `<div class="grid grid-cols-1 md:grid-cols-2 gap-6">`;
+        content.poets.forEach((p) => {
+          markup += `
+            <article class="leather-texture musnad-corner rounded-3xl p-6 sm:p-7 flex flex-col justify-between">
+              <div>
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                  <h4 class="font-ruqaa text-2xl font-bold">${p.name}</h4>
+                  <span class="px-3 py-1 rounded-full text-xs font-bold"
+                        style="background-color: var(--accent-ember-soft); color: var(--accent-ember);">${p.epithet}</span>
+                </div>
+                <blockquote class="stone-tablet rounded-2xl p-4 my-4 font-amiri text-lg sm:text-xl font-bold leading-relaxed border-r-4"
+                            style="color: var(--accent-gold); border-right-color: var(--accent-ember);">
+                  ${p.verse}
+                </blockquote>
+                <p class="text-sm leading-relaxed" style="color: var(--text-sand);">${p.insight}</p>
+              </div>
+            </article>
+          `;
+        });
+        markup += `</div>`;
+      } else if (key === "oratory") {
+        markup += `<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">`;
+        content.orators.forEach((o) => {
+          markup += `
+            <article class="leather-texture musnad-corner rounded-3xl p-6 sm:p-8 flex flex-col justify-between">
+              <div>
+                <span class="inline-block px-3 py-1 rounded-full text-xs font-bold mb-2"
+                      style="background-color: var(--accent-gold-soft); color: var(--accent-gold);">${o.title}</span>
+                <h4 class="font-ruqaa text-2xl sm:text-3xl font-bold mb-4">${o.name}</h4>
+                <blockquote class="stone-tablet rounded-2xl p-5 mb-5 font-amiri text-lg sm:text-xl leading-loose border-r-4"
+                            style="color: var(--accent-gold); border-right-color: var(--accent-gold);">
+                  ${o.excerpt}
+                </blockquote>
+                <p class="text-sm leading-relaxed" style="color: var(--text-sand);">${o.analysis}</p>
+              </div>
+            </article>
+          `;
+        });
+        markup += `</div>`;
+      } else if (key === "proverbs") {
+        markup += `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
+        content.items.forEach((item) => {
+          markup += `
+            <div class="parchment-flip-scene" onclick="this.classList.toggle('is-flipped')" role="button" tabindex="0"
+                 onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('is-flipped');}"
+                 aria-label="رِقّ مثل: ${item.proverb}. اضغط لقلبه">
+              <div class="parchment-flip-inner">
+                <!-- الوجه الأمامي -->
+                <div class="parchment-face leather-texture musnad-corner text-center items-center">
+                  <span class="px-3 py-1 rounded-full text-xs font-bold"
+                        style="background-color: var(--accent-ember-soft); color: var(--accent-ember);">${item.category}</span>
+                  <p class="font-amiri text-2xl sm:text-3xl font-bold leading-relaxed my-4" style="color: var(--accent-gold);">
+                    ${item.proverb}
+                  </p>
+                  <div class="text-xs flex items-center gap-1.5" style="color: var(--text-sand);">
+                    <span style="color: var(--accent-ember);">↻</span>
+                    <span>انقرْ لقلبِ الرِّقِّ وكشفِ القِصَّةِ والمَغزى</span>
+                  </div>
+                </div>
+                <!-- الوجه الخلفي -->
+                <div class="parchment-face parchment-face-back leather-texture text-right"
+                     style="border-color: var(--border-strong);">
+                  <div>
+                    <span class="font-kufi text-xs font-bold block mb-1" style="color: var(--accent-ember);">قِصَّةُ المَثَل:</span>
+                    <p class="text-xs sm:text-sm leading-relaxed mb-3" style="color: var(--text-sand);">${item.story}</p>
+                    <span class="font-kufi text-xs font-bold block mb-1" style="color: var(--accent-gold);">المَغزى العَقلي:</span>
+                    <p class="text-xs sm:text-sm leading-relaxed">${item.moral}</p>
+                  </div>
+                  <div class="text-[11px] text-left font-bold" style="color: var(--accent-gold);">↺ انقر للعودة</div>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        markup += `</div>`;
+      } else if (key === "knowledge") {
+        markup += `
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- العقل التجريبي والعملي -->
+            <div class="lg:col-span-7 leather-texture rounded-3xl p-6 sm:p-8 border-r-4" style="border-right-color: var(--accent-gold);">
+              <div class="flex items-center justify-between mb-5">
+                <h4 class="font-ruqaa text-2xl sm:text-3xl font-bold" style="color: var(--accent-gold);">نَجمُ الدَّليل: العقلُ التَّجريبيُّ والعملي</h4>
+                <span class="px-3 py-1 rounded-full text-xs font-bold" style="background-color: var(--accent-gold-soft); color: var(--accent-gold);">الملاحظة والاستقراء</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                ${content.empirical.map((e) => `
+                  <div class="stone-tablet rounded-2xl p-4">
+                    <h5 class="font-amiri text-xl font-bold mb-1.5" style="color: var(--accent-gold);">◆ ${e.name}</h5>
+                    <p class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-sand);">${e.desc}</p>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+
+            <!-- التفكير الغيبي والأسطوري -->
+            <div class="lg:col-span-5 leather-texture rounded-3xl p-6 sm:p-8 border-r-4" style="border-right-color: var(--accent-crimson);">
+              <div class="flex items-center justify-between mb-5">
+                <h4 class="font-ruqaa text-2xl sm:text-3xl font-bold" style="color: var(--accent-crimson);">سَجعُ الكاهن: التَّفكيرُ الغيبي</h4>
+                <span class="px-3 py-1 rounded-full text-xs font-bold" style="background-color: var(--accent-crimson-soft); color: var(--accent-crimson);">تفسير المجهول</span>
+              </div>
+              <div class="space-y-3.5">
+                ${content.metaphysical.map((m) => `
+                  <div class="stone-tablet rounded-2xl p-4">
+                    <h5 class="font-amiri text-xl font-bold mb-1" style="color: var(--accent-crimson);">❖ ${m.name}</h5>
+                    <p class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-sand);">${m.desc}</p>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      markup += `</div>`;
+      scrollStage.innerHTML = markup;
+    }
+
+    scrollTabs.forEach((btn) => {
+      btn.addEventListener("click", () => openScroll(btn.dataset.scroll));
+    });
+
+    // =========================================================================
+    // 5. قافلةُ الأسواق الأدبية (Caravan Trail Explorer)
+    // =========================================================================
+    function renderCaravanMarkets(selectedIndex) {
+      const stopsGrid = document.getElementById("caravanStopsGrid");
+      const detailPanel = document.getElementById("caravanDetailPanel");
+
+      stopsGrid.innerHTML = CARAVAN_MARKETS.map((m, idx) => {
+        const isActive = idx === selectedIndex;
+        return `
+          <button type="button" onclick="renderCaravanMarkets(${idx})"
+                  class="p-5 rounded-2xl border text-right transition cursor-pointer"
+                  style="background-color: ${isActive ? "var(--bg-stone)" : "transparent"};
+                         border-color: ${isActive ? "var(--accent-ember)" : "var(--border-carved)"};">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-kufi text-xs font-bold" style="color: var(--accent-ember);">المَحطَّةُ ٠${idx + 1}</span>
+              <span class="text-[11px] px-2.5 py-0.5 rounded-full font-semibold"
+                    style="background-color: var(--accent-gold-soft); color: var(--accent-gold);">${m.timing}</span>
+            </div>
+            <h3 class="font-ruqaa text-2xl font-bold">${m.name}</h3>
+            <p class="text-xs mt-1" style="color: var(--text-sand);">${m.location}</p>
+          </button>
+        `;
+      }).join("");
+
+      const activeMarket = CARAVAN_MARKETS[selectedIndex];
+      detailPanel.innerHTML = `
+        <div class="scroll-reveal grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7 space-y-3">
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-bold"
+                  style="background-color: var(--accent-crimson-soft); color: var(--accent-crimson);">
+              ${activeMarket.role}
+            </span>
+            <h3 class="font-ruqaa text-3xl sm:text-4xl font-bold" style="color: var(--accent-gold);">${activeMarket.name}</h3>
+            <p class="text-sm sm:text-base leading-relaxed" style="color: var(--text-sand);">${activeMarket.description}</p>
+          </div>
+
+          <div class="lg:col-span-5 stone-tablet rounded-2xl p-6">
+            <h4 class="font-ruqaa text-xl font-bold mb-2" style="color: var(--accent-ember);">الأثرُ العقليُّ واللُّغويُّ للسُّوق</h4>
+            <p class="text-sm leading-relaxed" style="color: var(--text-sand);">${activeMarket.impact}</p>
+            <div class="mt-4 pt-3 border-t flex items-center justify-between text-xs" style="border-color: var(--border-carved);">
+              <span style="color: var(--text-sand);">موسم الانعقاد:</span>
+              <strong style="color: var(--accent-gold);">${activeMarket.timing}</strong>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // =========================================================================
+    // 6. سِجالُ المعنى (مختبر تحليل البيئة والفكر)
+    // =========================================================================
+    let currentDebateIndex = 0;
+
+    function renderDebateLab(index) {
+      currentDebateIndex = index;
+      const listContainer = document.getElementById("debateSelectorList");
+      const item = DEBATE_ARTIFACTS[index];
+
+      listContainer.innerHTML = DEBATE_ARTIFACTS.map((art, i) => {
+        const selected = i === index;
+        return `
+          <button type="button" onclick="renderDebateLab(${i})"
+                  class="w-full text-right p-4 rounded-2xl border transition cursor-pointer flex items-center justify-between gap-3"
+                  style="background-color: ${selected ? "var(--bg-parchment)" : "var(--bg-stone)"};
+                         border-color: ${selected ? "var(--accent-ember)" : "var(--border-carved)"};">
+            <div>
+              <span class="text-[11px] font-bold block mb-0.5" style="color: ${selected ? "var(--accent-ember)" : "var(--text-sand)"};">
+                ${art.badge}
+              </span>
+              <strong class="font-ruqaa text-lg sm:text-xl block">${art.title}</strong>
+            </div>
+            <span style="color: var(--accent-gold);">${selected ? "◂" : ""}</span>
+          </button>
+        `;
+      }).join("");
+
+      document.getElementById("debateBadge").textContent = item.badge;
+      document.getElementById("debateTitle").textContent = item.title;
+      document.getElementById("debateQuote").textContent = item.quote;
+      document.getElementById("debateSource").textContent = `— ${item.source}`;
+      document.getElementById("layerEnvironment").textContent = item.environment;
+      document.getElementById("layerCognition").textContent = item.cognition;
+      document.getElementById("layerRhetoric").textContent = item.rhetoric;
+      document.getElementById("copyDebateLabel").textContent = "نَسخُ النَّصِّ المَنقوش";
+    }
+
+    function copyDebateText() {
+      const item = DEBATE_ARTIFACTS[currentDebateIndex];
+      const text = `${item.quote} (${item.source})`;
+      const area = document.createElement("textarea");
+      area.value = text;
+      document.body.appendChild(area);
+      area.select();
+      try {
+        document.execCommand("copy");
+        document.getElementById("copyDebateLabel").textContent = "تَمَّ النَّسخُ بِنَجاح ✓";
+        setTimeout(() => {
+          document.getElementById("copyDebateLabel").textContent = "نَسخُ النَّصِّ المَنقوش";
+        }, 2200);
+      } catch (e) {}
+      document.body.removeChild(area);
+    }
+
+    // =========================================================================
+    // 7. مجلسُ السَّمَر (اختبار الفِطنة والنباهة)
+    // =========================================================================
+    let samarState = {
+      step: 0,
+      points: 0,
+      chosen: null,
+      finished: false
+    };
+
+    function renderSamarQuiz() {
+      const box = document.getElementById("samarQuizBox");
+
+      if (samarState.finished) {
+        let title = "رَاويةُ المضاربِ المُبتدئ";
+        let desc = "خطوةٌ طيّبةٌ في رحابِ البادية؛ تصفّحِ الرِّقاعَ مجدّداً لتستزيدَ من حِكمِ العربِ وأشعارِهم.";
+        if (samarState.points === 5) {
+          title = "حَكيمُ سُوقِ عُكاظ (العلامةُ الكاملة)";
+          desc = "فِطنةٌ ثاقبةٌ وبصيرةٌ نافذة! لقد ألممتَ بأسرارِ العقلِ العربيِّ قبلَ الإسلامِ وعلومِه وبيانِه.";
+        } else if (samarState.points >= 3) {
+          title = "فَصيحُ المَضاربِ ورَاويتُها";
+          desc = "نباهةٌ عاليةٌ وفهمٌ أصيلٌ لطبيعةِ الفِكرِ والأدبِ في العصرِ الجاهلي.";
+        }
+
+        box.innerHTML = `
+          <div class="text-center py-6 scroll-reveal">
+            <div class="w-24 h-24 rounded-full mx-auto mb-5 flex items-center justify-center border-2 font-ruqaa text-3xl font-bold"
+                 style="background-color: var(--accent-ember-soft); border-color: var(--accent-gold); color: var(--accent-gold);">
+              ${samarState.points} / ${SAMAR_QUESTIONS.length}
+            </div>
+            <span class="font-kufi text-xs font-bold uppercase tracking-wider block mb-1" style="color: var(--accent-ember);">
+              لَقَبُكَ في مَجلسِ السَّمَر
+            </span>
+            <h3 class="font-ruqaa text-3xl sm:text-4xl font-bold mb-3" style="color: var(--accent-gold);">${title}</h3>
+            <p class="text-sm sm:text-base max-w-lg mx-auto mb-8" style="color: var(--text-sand);">${desc}</p>
+            <button type="button" onclick="restartSamarQuiz()"
+                    class="px-7 py-3 rounded-2xl text-sm font-bold cursor-pointer shadow-md"
+                    style="background-color: var(--accent-ember); color: #FFF8F0;">
+              إعادةُ الجَلسةِ من البداية ↺
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      const currentQ = SAMAR_QUESTIONS[samarState.step];
+      const answered = samarState.chosen !== null;
+
+      const optionsMarkup = currentQ.options.map((opt, idx) => {
+        let border = "var(--border-carved)";
+        let bg = "var(--bg-stone)";
+        let tag = "";
+
+        if (answered) {
+          if (idx === currentQ.answer) {
+            border = "#22c55e";
+            bg = "rgba(34, 197, 94, 0.14)";
+            tag = `<span class="text-xs font-bold text-emerald-400 shrink-0">صواب ✓</span>`;
+          } else if (idx === samarState.chosen) {
+            border = "var(--accent-crimson)";
+            bg = "var(--accent-crimson-soft)";
+            tag = `<span class="text-xs font-bold shrink-0" style="color: var(--accent-crimson);">اختيارك ✕</span>`;
+          }
+        }
+
+        return `
+          <button type="button" ${answered ? "disabled" : ""} onclick="answerSamar(${idx})"
+                  class="w-full text-right p-4 rounded-2xl border transition flex items-center justify-between gap-3 ${answered ? "cursor-default" : "cursor-pointer hover:border-amber-500"}"
+                  style="background-color: ${bg}; border-color: ${border};">
+            <span class="text-sm sm:text-base font-medium">${opt}</span>
+            ${tag}
+          </button>
+        `;
+      }).join("");
+
+      box.innerHTML = `
+        <div class="scroll-reveal">
+          <div class="flex items-center justify-between text-xs mb-6 pb-4 border-b"
+               style="border-color: var(--border-carved); color: var(--text-sand);">
+            <span>المسألةُ <strong style="color: var(--accent-gold);">${samarState.step + 1}</strong> من ${SAMAR_QUESTIONS.length}</span>
+            <span>نقاطُ الفِطنة: <strong style="color: var(--accent-ember);">${samarState.points}</strong></span>
+          </div>
+
+          <h3 class="font-amiri text-2xl sm:text-3xl font-bold mb-6 leading-snug">${currentQ.q}</h3>
+
+          <div class="space-y-3 mb-6">
+            ${optionsMarkup}
+          </div>
+
+          ${answered ? `
+            <div class="p-4 rounded-2xl mb-6 border text-sm leading-relaxed"
+                 style="background-color: var(--accent-gold-soft); border-color: var(--border-strong);">
+              <strong class="block mb-1" style="color: var(--accent-gold);">إضاءةٌ من السِّفر:</strong>
+              <span style="color: var(--text-sand);">${currentQ.note}</span>
+            </div>
+            <div class="flex justify-end">
+              <button type="button" onclick="advanceSamar()"
+                      class="px-6 py-3 rounded-xl text-sm font-bold cursor-pointer shadow-md"
+                      style="background-color: var(--accent-ember); color: #FFF8F0;">
+                ${samarState.step + 1 < SAMAR_QUESTIONS.length ? "المسألةُ التَّالية ←" : "إعلانُ اللَّقَبِ والنَّتيجة"}
+              </button>
+            </div>
+          ` : ""}
+        </div>
+      `;
+    }
+
+    function answerSamar(idx) {
+      if (samarState.chosen !== null) return;
+      samarState.chosen = idx;
+      if (idx === SAMAR_QUESTIONS[samarState.step].answer) {
+        samarState.points += 1;
+      }
+      renderSamarQuiz();
+    }
+
+    function advanceSamar() {
+      if (samarState.step + 1 < SAMAR_QUESTIONS.length) {
+        samarState.step += 1;
+        samarState.chosen = null;
+      } else {
+        samarState.finished = true;
+      }
+      renderSamarQuiz();
+    }
+
+    function restartSamarQuiz() {
+      samarState = { step: 0, points: 0, chosen: null, finished: false };
+      renderSamarQuiz();
+    }
+
+    // =========================================================================
+    // 8. تخصيص خَتم الباحث (Modal Editor)
+    // =========================================================================
+    const sealModal = document.getElementById("sealModal");
+    const sealForm = document.getElementById("sealForm");
+
+    function loadSealData() {
+      try {
+        const saved = JSON.parse(localStorage.getItem("riqaa_seal_info") || "null");
+        if (saved) {
+          if (saved.student) document.getElementById("sealStudentName").textContent = saved.student;
+          if (saved.group) document.getElementById("sealGroupName").textContent = saved.group;
+          if (saved.professor) document.getElementById("sealProfessorName").textContent = saved.professor;
+        }
+      } catch (e) {}
+    }
+
+    function openSealModal() {
+      document.getElementById("fieldStudent").value = document.getElementById("sealStudentName").textContent;
+      document.getElementById("fieldGroup").value = document.getElementById("sealGroupName").textContent;
+      document.getElementById("fieldProfessor").value = document.getElementById("sealProfessorName").textContent;
+      sealModal.classList.remove("hidden");
+      sealModal.classList.add("flex");
+    }
+
+    function closeSealModal() {
+      sealModal.classList.add("hidden");
+      sealModal.classList.remove("flex");
+    }
+
+    sealForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const student = document.getElementById("fieldStudent").value.trim() || "اسم الطالب / صاحبة المشروع";
+      const group = document.getElementById("fieldGroup").value.trim() || "الأدب الجاهلي والحضارة العربية";
+      const professor = document.getElementById("fieldProfessor").value.trim() || "اسم الأستاذ المشرف";
+
+      document.getElementById("sealStudentName").textContent = student;
+      document.getElementById("sealGroupName").textContent = group;
+      document.getElementById("sealProfessorName").textContent = professor;
+
+      try {
+        localStorage.setItem("riqaa_seal_info", JSON.stringify({ student, group, professor }));
+      } catch (err) {}
+
+      closeSealModal();
+    });
+
+    sealModal.addEventListener("click", (e) => {
+      if (e.target === sealModal) closeSealModal();
+    });
+
+    // =========================================================================
+    // 9. تشغيل جميع عناصر السِّفر عند اکتمال تحميل الصفحة
+    // =========================================================================
+    window.onload = function () {
+      try {
+        const savedAtmo = localStorage.getItem("riqaa_atmosphere");
+        if (savedAtmo === "daylight" || savedAtmo === "campfire") {
+          setAtmosphere(savedAtmo);
+        }
+      } catch (e) {}
+
+      initDesertCanvas();
+      openScroll("poetry");
+      renderCaravanMarkets(0);
+      renderDebateLab(0);
+      renderSamarQuiz();
+      loadSealData();
+    };
+  </script>
+</body>
+</html>

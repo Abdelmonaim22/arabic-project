@@ -788,32 +788,40 @@
 
       <h3 id="sealModalHeading" class="font-ruqaa text-2xl sm:text-3xl font-bold mb-2" style="color: var(--accent-gold);">
 بَيَانَاتُ بِطَاقَةِ العَرْض              </h3>
-      <p class="text-xs sm:text-sm mb-6" style="color: var(--text-sand);">
-        اكتبْ اسمَ الطالبِ والأستاذِ المشرفِ ليُنقَشَ مباشرةً في بطاقةِ العرضِ أسفلَ السِّفر.
-      </p>
+    
 
       <form id="sealForm" class="space-y-4">
         <div>
-          <label for="fieldStudent" class="block text-xs font-bold mb-1.5">اسمُ الطالبِ أو الطالبة</label>
+          <label for="fieldStudent" class="block text-xs font-bold mb-1.5">اسمُ الطالبِ </label>
           <input id="fieldStudent" type="text" placeholder="مثال: طارق بن زياد / مريم العبدلي"
                  class="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none"
                  style="background-color: var(--bg-stone); border-color: var(--border-strong); color: var(--text-ivory);" />
         </div>
 
         <div>
-          <label for="fieldGroup" class="block text-xs font-bold mb-1.5">الفوجُ أو التخصُّص</label>
+          <label for="fieldGroup" class="block text-xs font-bold mb-1.5">الفوجُ </label>
           <input id="fieldGroup" type="text" placeholder="مثال: الفوج 02 — دراسات أدبية"
                  class="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none"
                  style="background-color: var(--bg-stone); border-color: var(--border-strong); color: var(--text-ivory);" />
         </div>
 
         <div>
-          <label for="fieldProfessor" class="block text-xs font-bold mb-1.5">اسمُ الأستاذِ أو الأستاذة</label>
+          <label for="fieldProfessor" class="block text-xs font-bold mb-1.5">اسمُ الأستاذِ </label>
           <input id="fieldProfessor" type="text" placeholder="مثال: أ.د. يوسف القاسمي"
                  class="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none"
                  style="background-color: var(--bg-stone); border-color: var(--border-strong); color: var(--text-ivory);" />
         </div>
-
+          <div>
+          <label for="fieldSecretCode" class="block text-xs font-bold mb-1.5" style="color: var(--accent-ember);">
+            الرَّمزُ السِّرِّيُّ لِحِفْظِ التَّعْدِيل
+          </label>
+          <input id="fieldSecretCode" type="password" placeholder="أدخل الرمز السري..."
+                 class="w-full px-4 py-2.5 rounded-xl text-sm border focus:outline-none"
+                 style="background-color: var(--bg-stone); border-color: var(--border-strong); color: var(--text-ivory);" />
+          <p id="sealErrorMsg" class="text-xs font-bold mt-1.5 hidden" style="color: var(--accent-crimson);">
+            ✕ الرَّمزُ السِّرِّيُّ غيرُ صحيح، لا يُسمح بالتعديل.
+          </p>
+        </div>
         <div class="pt-3 flex items-center justify-end gap-3">
           <button type="button" onclick="closeSealModal()"
                   class="px-4 py-2.5 rounded-xl text-sm font-medium border cursor-pointer"
@@ -823,7 +831,7 @@
           <button type="submit"
                   class="px-6 py-2.5 rounded-xl text-sm font-bold cursor-pointer shadow-md"
                   style="background-color: var(--accent-ember); color: #FFF8F0;">
-            
+            حِفْظُ البَيَانَات
           </button>
         </div>
       </form>
@@ -1745,10 +1753,15 @@
       } catch (e) {}
     }
 
+    
+const SECRET_PIN = "7496"; 
+
     function openSealModal() {
       document.getElementById("fieldStudent").value = document.getElementById("sealStudentName").textContent;
       document.getElementById("fieldGroup").value = document.getElementById("sealGroupName").textContent;
       document.getElementById("fieldProfessor").value = document.getElementById("sealProfessorName").textContent;
+      document.getElementById("fieldSecretCode").value = "";
+      document.getElementById("sealErrorMsg").classList.add("hidden");
       sealModal.classList.remove("hidden");
       sealModal.classList.add("flex");
     }
@@ -1760,6 +1773,15 @@
 
     sealForm.addEventListener("submit", (e) => {
       e.preventDefault();
+      const enteredCode = document.getElementById("fieldSecretCode").value.trim();
+      const errorMsg = document.getElementById("sealErrorMsg");
+
+      if (enteredCode !== SECRET_PIN) {
+        errorMsg.classList.remove("hidden");
+        return;
+      }
+      errorMsg.classList.add("hidden");
+
       const student = document.getElementById("fieldStudent").value.trim() || "اسم الطالب / صاحبة المشروع";
       const group = document.getElementById("fieldGroup").value.trim() || "الأدب الجاهلي والحضارة العربية";
       const professor = document.getElementById("fieldProfessor").value.trim() || "اسم الأستاذ المشرف";
